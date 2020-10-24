@@ -25,7 +25,7 @@ namespace Kieszonkowe.Controllers
             {
                 new string("Kieszonkowe"),
                 new string("MK"),
-                new string("ŁK")
+                new string("ŁK"),
             }.ToArray();
         }
     }

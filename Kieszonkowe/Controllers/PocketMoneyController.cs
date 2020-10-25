@@ -20,7 +20,7 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpGet]
-        [EnableCors("MyPolicy")]
+        [EnableCors("AllowAll")]
         public IEnumerable<string> Get()
         {
             return new List<string>

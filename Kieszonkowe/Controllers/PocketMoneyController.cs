@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Kieszonkowe.Controllers
 {
     [ApiController]
-    [Route("kieszonkowe")]
+    [Route("pocketmoney")]
     public class PocketMoneyController : ControllerBase
     {
         private readonly ILogger<PocketMoneyController> _logger;
@@ -23,12 +20,15 @@ namespace Kieszonkowe.Controllers
         [EnableCors("AllowAll")]
         public IEnumerable<string> Get()
         {
+
             return new List<string>
             {
                 new string("Kieszonkowe"),
                 new string("Statystyki"),
                 new string("I Inne Dane"),
             }.ToArray();
+
+
         }
     }
 }

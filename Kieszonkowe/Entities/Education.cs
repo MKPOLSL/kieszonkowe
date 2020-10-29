@@ -11,6 +11,5 @@ namespace Kieszonkowe.Entities
         [Key]
         public Guid Id { get; set; }
         public string EducationDegree { get; set; }
-        
     }
 }

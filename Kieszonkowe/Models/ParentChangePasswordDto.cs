@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kieszonkowe.Entities
+namespace Kieszonkowe.Models
 {
-    public class Administrator : User
+    public class ParentChangePasswordDto
     {
+        Guid Id;
+        string password;
     }
 }

@@ -14,6 +14,11 @@ namespace Kieszonkowe
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            using (var client = new PocketMoneyContext())
+            {
+                client.Database.EnsureCreated();
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -23,9 +28,10 @@ namespace Kieszonkowe
         {
             services.AddControllers();
             services.ConfigureCors();
+            services.AddEntityFrameworkSqlite().AddDbContext<PocketMoneyContext>();
 
             services.AddSingleton<IStatisticsService, StatisticsService>();
-
+            services.AddScoped<IChildRecordService, ChildRecordService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

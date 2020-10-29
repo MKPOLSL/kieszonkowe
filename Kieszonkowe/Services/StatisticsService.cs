@@ -6,6 +6,11 @@ namespace Kieszonkowe.Services
 {
     public class StatisticsService : IStatisticsService
     {
+        public double AllStatistics()
+        {
+            throw new NotImplementedException();
+        }
+
         public double MeanAmount(Education education, Region region)
         {
             throw new NotImplementedException();

@@ -30,7 +30,7 @@ namespace Kieszonkowe
             services.ConfigureCors();
             services.AddEntityFrameworkSqlite().AddDbContext<PocketMoneyContext>();
 
-            services.AddSingleton<IStatisticsService, StatisticsService>();
+            services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddScoped<IChildRecordService, ChildRecordService>();
         }
 

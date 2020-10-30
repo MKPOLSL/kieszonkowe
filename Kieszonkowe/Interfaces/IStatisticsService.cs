@@ -1,13 +1,14 @@
 ﻿using Kieszonkowe.Entities;
+using System;
 
 namespace Kieszonkowe.Interfaces
 {
     public interface IStatisticsService
     {
-        double MeanAmount(Education education, Region region);
-        double MedianAmount(Education education, Region region);
-        double StandartDeviationAmount(Education education, Region region);
-        double ModeAmount(Education education, Region region);
+        double? MeanAmount(Guid educationId, Guid regionId);
+        double MedianAmount(Guid educationId, Guid regionId);
+        double StandartDeviationAmount(Guid educationId, Guid regionId);
+        double ModeAmount(Guid educationId, Guid regionId);
         double AllStatistics();
     }
 }

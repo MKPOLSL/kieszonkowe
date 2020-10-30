@@ -17,7 +17,7 @@ namespace Kieszonkowe.Services
             childSet = pocketMoneyContext.Set<ChildRecord>();
         }
 
-        public double AllStatistics()
+        public double? AllStatistics()
         {
             throw new NotImplementedException();
         }
@@ -34,17 +34,17 @@ namespace Kieszonkowe.Services
             return average;
         }
 
-        public double MedianAmount(Guid educationId, Guid regionId)
+        public double? MedianAmount(Guid educationId, Guid regionId)
         {
             throw new NotImplementedException();
         }
 
-        public double ModeAmount(Guid educationId, Guid regionId)
+        public double? ModeAmount(Guid educationId, Guid regionId)
         {
             throw new NotImplementedException();
         }
 
-        public double StandartDeviationAmount(Guid educationId, Guid regionId)
+        public double? StandartDeviationAmount(Guid educationId, Guid regionId)
         {
             throw new NotImplementedException();
         }

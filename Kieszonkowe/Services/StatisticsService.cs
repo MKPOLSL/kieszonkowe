@@ -2,7 +2,9 @@
 using Kieszonkowe.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Kieszonkowe.Services
 {
@@ -24,14 +26,10 @@ namespace Kieszonkowe.Services
 
         public double? MeanAmount(Guid educationId, Guid regionId)
         {
-            IQueryable<int?> set = pocketMoneyContext
-                .Set<ChildRecord>()
-                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
-                .Include(e => e.Region)
-                .Select(s => s.ActualAmount);
-            var list = set.ToArray();
-            double? average = list.Average();
-            return average;
+            //var list = set.ToArray();
+            //double? average = list.Average();
+            //return average;
+            throw new NotImplementedException();
         }
 
         public double? MedianAmount(Guid educationId, Guid regionId)
@@ -39,14 +37,39 @@ namespace Kieszonkowe.Services
             throw new NotImplementedException();
         }
 
-        public double? ModeAmount(Guid educationId, Guid regionId)
+        public async Task<int?> ModeAmount(Guid educationId, Guid regionId)
         {
-            throw new NotImplementedException();
+            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            int? modeValue = list
+                .GroupBy(x => x)
+                .OrderByDescending(x => x.Count()).ThenBy(x => x.Key)
+                .Select(x => (int?)x.Key)
+                .FirstOrDefault();
+            return modeValue;
         }
 
         public double? StandartDeviationAmount(Guid educationId, Guid regionId)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        {
+            return await pocketMoneyContext
+                .Set<ChildRecord>()
+                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
+                .Include(e => e.Region)
+                .Select(s => s.ActualAmount)
+                .ToListAsync();
+        }
+        private async Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        {
+            return await pocketMoneyContext
+                .Set<ChildRecord>()
+                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
+                .Include(e => e.Region)
+                .Select(s => s.PlannedAmount)
+                .ToListAsync(); ;
         }
     }
 }

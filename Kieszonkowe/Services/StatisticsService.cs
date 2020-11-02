@@ -12,6 +12,7 @@ namespace Kieszonkowe.Services
     {
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
+        public int Pies { get; set; }
 
         public StatisticsService(PocketMoneyContext pocketMoneyContext)
         {
@@ -24,12 +25,10 @@ namespace Kieszonkowe.Services
             throw new NotImplementedException();
         }
 
-        public double? MeanAmount(Guid educationId, Guid regionId)
+        public async Task<double?> MeanAmount(Guid educationId, Guid regionId)
         {
-            //var list = set.ToArray();
-            //double? average = list.Average();
-            //return average;
-            throw new NotImplementedException();
+            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            return list.Sum() / list.Count();
         }
 
         public double? MedianAmount(Guid educationId, Guid regionId)
@@ -55,8 +54,7 @@ namespace Kieszonkowe.Services
 
         private async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
-            return await pocketMoneyContext
-                .Set<ChildRecord>()
+            return await childSet
                 .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
                 .Include(e => e.Region)
                 .Select(s => s.ActualAmount)
@@ -64,12 +62,16 @@ namespace Kieszonkowe.Services
         }
         private async Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
-            return await pocketMoneyContext
-                .Set<ChildRecord>()
+            return await childSet
                 .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
                 .Include(e => e.Region)
                 .Select(s => s.PlannedAmount)
                 .ToListAsync(); ;
+        }
+
+        double? IStatisticsService.MeanAmount(Guid educationId, Guid regionId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Kieszonkowe.Entities;
+﻿using Kieszonkowe.DAL;
+using Kieszonkowe.Entities;
 using Kieszonkowe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -44,6 +45,16 @@ namespace Kieszonkowe.Controllers
             if (result == null)
                 return BadRequest();
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("authenticate")]
+        public IActionResult AuthenticateUser([FromBody] UserLoginDto userLogin)
+        {
+            var authenticatedUser = userService.AuthenticateUser(userLogin);
+            if (authenticatedUser == null)
+                return Forbid();
+            return Ok(authenticatedUser);
         }
     }
 }

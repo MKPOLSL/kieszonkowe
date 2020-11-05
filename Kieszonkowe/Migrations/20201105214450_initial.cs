@@ -12,7 +12,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Login = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -37,7 +37,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Login = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),

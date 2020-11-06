@@ -2,10 +2,15 @@
 using Kieszonkowe.Entities;
 using Kieszonkowe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Kieszonkowe.Controllers
 {
+    //wszystkie dzieci na profile/childs/{id} -> id rodzica GET
+    //dziecko profile/addChild/{id} -> id rodzica   POST
+
+
     [ApiController]
     [Route("profile")]//localhost:4800/profile/register
     public class UserProfileController : ControllerBase
@@ -31,11 +36,11 @@ namespace Kieszonkowe.Controllers
             return "pies";
         }
 
-        public async Task<IActionResult> CreateChildRecord(ChildRecord childRecord)
-        {
-            var result = await childRecordService.CreateChildRecord(childRecord);
-            return Ok(result);
-        }
+        //public async Task<IActionResult> CreateChildRecord(ChildRecord childRecord)
+        //{
+        //    var result = await childRecordService.CreateChildRecord(childRecord);
+        //    return Ok(result);
+        //}
 
         [HttpPost]
         [Route("register")]
@@ -56,6 +61,22 @@ namespace Kieszonkowe.Controllers
                 return Forbid();
             return Ok(authenticatedUser);
         }
+
+        [HttpGet]
+        [Route("childs/{id}")]
+        public IActionResult GetAllChildren(Guid id)
+        {
+            var children = userService.GetAllChildrenForUser(id);
+            return Ok(children);
+        }
+
+        [HttpPost]
+        [Route("addChild/{id}")]
+        public IActionResult CreateChildRecord(CreateChildDto childRecord, [FromQuery] Guid parentId)
+        {
+            //userService.AddChildRecord(childRecord, parentId);
+            return Ok();
+        }   
     }
 }
 

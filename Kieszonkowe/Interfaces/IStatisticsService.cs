@@ -1,15 +1,15 @@
-﻿using Kieszonkowe.Entities;
+﻿using Kieszonkowe.DAL;
+using Kieszonkowe.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kieszonkowe.Interfaces
 {
     public interface IStatisticsService
     {
-        double? MeanAmount(Guid educationId, Guid regionId);
-        double? MedianAmount(Guid educationId, Guid regionId);
-        double? StandartDeviationAmount(Guid educationId, Guid regionId);
-        Task<int?> ModeAmount(Guid educationId, Guid regionId);
-        double? AllStatistics();
+        StatisticsDto calculateStatistics(List<int?> list);
+        Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId);
+        Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId);
     }
 }

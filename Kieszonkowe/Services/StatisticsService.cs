@@ -1,4 +1,5 @@
-﻿using Kieszonkowe.Entities;
+﻿using Kieszonkowe.DAL;
+using Kieszonkowe.Entities;
 using Kieszonkowe.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,6 @@ namespace Kieszonkowe.Services
     {
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
-        public int Pies { get; set; }
 
         public StatisticsService(PocketMoneyContext pocketMoneyContext)
         {
@@ -20,25 +20,20 @@ namespace Kieszonkowe.Services
             childSet = pocketMoneyContext.Set<ChildRecord>();
         }
 
-        public double? AllStatistics()
+        public double? MeanAmount(List<int?> list)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<double?> MeanAmount(Guid educationId, Guid regionId)
-        {
-            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
             return list.Sum() / list.Count();
         }
 
-        public double? MedianAmount(Guid educationId, Guid regionId)
+        public double? MedianAmount(List<int?> list)
         {
-            throw new NotImplementedException();
+            var count = list.Count();
+            var orderedList = list.OrderBy(l => l.Value);
+            return orderedList.ElementAt(count / 2).Value + orderedList.ElementAt((count - 1) / 2).Value / 2;
         }
 
-        public async Task<int?> ModeAmount(Guid educationId, Guid regionId)
+        public int? ModeAmount(List<int?> list)
         {
-            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
             int? modeValue = list
                 .GroupBy(x => x)
                 .OrderByDescending(x => x.Count()).ThenBy(x => x.Key)
@@ -47,12 +42,12 @@ namespace Kieszonkowe.Services
             return modeValue;
         }
 
-        public double? StandartDeviationAmount(Guid educationId, Guid regionId)
+        public double? StandardDeviationAmount(List<int?> list)
         {
-            throw new NotImplementedException();
+            var mean = MeanAmount(list);
+            return Math.Sqrt(list.Average(v => Math.Pow((double)(v - mean), 2)));
         }
-
-        private async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        public async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
             return await childSet
                 .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
@@ -60,7 +55,7 @@ namespace Kieszonkowe.Services
                 .Select(s => s.ActualAmount)
                 .ToListAsync();
         }
-        private async Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        public async Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
             return await childSet
                 .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
@@ -69,9 +64,14 @@ namespace Kieszonkowe.Services
                 .ToListAsync(); ;
         }
 
-        double? IStatisticsService.MeanAmount(Guid educationId, Guid regionId)
+        public StatisticsDto calculateStatistics(List<int?> list)
         {
-            throw new NotImplementedException();
+            StatisticsDto statistics = new StatisticsDto();
+            statistics.meanAmount = MeanAmount(list);
+            statistics.medianAmount = MedianAmount(list);
+            statistics.modeAmount = ModeAmount(list);
+            statistics.standardDeviationAmount = StandardDeviationAmount(list);
+            return statistics;
         }
     }
 }

@@ -1,0 +1,1 @@
+Tworzenie usera - z witryny register-mock wysyłany jest dobry request, ale user nie jest dodawany do bazy

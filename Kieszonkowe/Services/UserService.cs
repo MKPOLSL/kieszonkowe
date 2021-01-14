@@ -21,7 +21,7 @@ namespace Kieszonkowe.Services
         }
         public async Task<Parent> CreateUser(Parent parent)
         {
-            if (!CheckIfLoginExists(parent.Username))
+            if (CheckIfLoginExists(parent.Username))
                 return null;
             var createdParent = await parentSet.AddAsync(parent);
             return createdParent.Entity;

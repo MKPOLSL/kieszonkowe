@@ -11,7 +11,6 @@ namespace Kieszonkowe.Services
     {
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<Parent> parentSet;
-        private readonly DbSet<Parent> userSet;
 
         public UserService(PocketMoneyContext pocketMoneyContext)
         {
@@ -21,9 +20,10 @@ namespace Kieszonkowe.Services
         }
         public async Task<Parent> CreateUser(Parent parent)
         {
-            if (!CheckIfLoginExists(parent.Username))
+            if (CheckIfLoginExists(parent.Username))
                 return null;
             var createdParent = await parentSet.AddAsync(parent);
+            await pocketMoneyContext.SaveChangesAsync();
             return createdParent.Entity;
 
         }

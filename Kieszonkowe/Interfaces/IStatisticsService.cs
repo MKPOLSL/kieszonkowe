@@ -8,8 +8,9 @@ namespace Kieszonkowe.Interfaces
 {
     public interface IStatisticsService
     {
-        StatisticsDto calculateStatistics(List<int?> list);
-        Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId);
-        Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId);
+        Task<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId);
+        Task<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, Guid regionId);
+        Task<List<Education>> GetEducations();
+        Task<List<Region>> GetRegions();
     }
 }

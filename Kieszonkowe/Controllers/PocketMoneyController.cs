@@ -38,8 +38,7 @@ namespace Kieszonkowe.Controllers
         [Route("statistics")]
         public async Task<IActionResult> CalculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
-            var list = await statisticsService.GetPlannedAmountListForRegionAndEducation(educationId, regionId);
-            var statistics = statisticsService.calculateStatistics(list);
+            var statistics = await statisticsService.calculateStatisticsForPlannedAmount(educationId, regionId);
             return Ok(statistics);
         }
 
@@ -47,9 +46,24 @@ namespace Kieszonkowe.Controllers
         [Route("statisticsActual")]
         public async Task<IActionResult> CalculateStatisticsForActualAmount(Guid educationId, Guid regionId)
         {
-            var list = await statisticsService.GetActualAmountListForRegionAndEducation(educationId, regionId);
-            var statistics = statisticsService.calculateStatistics(list);
+            var statistics = await statisticsService.calculateStatisticsForActualAmount(educationId, regionId);
             return Ok(statistics);
+        }
+
+        [HttpGet]
+        [Route("educations")]
+        public async Task<IActionResult> GetEducationDegrees()
+        {
+            var educations = await statisticsService.GetEducations();
+            return Ok(educations);
+        }
+
+        [HttpGet]
+        [Route("regions")]
+        public async Task<IActionResult> GetRegions()
+        {
+            var regions = await statisticsService.GetRegions();
+            return Ok(regions);
         }
     }
 }

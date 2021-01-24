@@ -31,12 +31,6 @@ namespace Kieszonkowe.Controllers
             return "pies";
         }
 
-        public async Task<IActionResult> CreateChildRecord(ChildRecord childRecord)
-        {
-            var result = await childRecordService.CreateChildRecord(childRecord);
-            return Ok(result);
-        }
-
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> CreateParent(Parent parent)

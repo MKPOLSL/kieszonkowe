@@ -13,11 +13,15 @@ namespace Kieszonkowe.Services
     {
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
+        private readonly DbSet<Education> educationSet;
+        private readonly DbSet<Region> regionSet;
 
         public StatisticsService(PocketMoneyContext pocketMoneyContext)
         {
             this.pocketMoneyContext = pocketMoneyContext;
             childSet = pocketMoneyContext.Set<ChildRecord>();
+            educationSet = pocketMoneyContext.Set<Education>();
+            regionSet = pocketMoneyContext.Set<Region>();
         }
 
         public double? MeanAmount(List<int?> list)
@@ -61,7 +65,7 @@ namespace Kieszonkowe.Services
                 .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
                 .Include(e => e.Region)
                 .Select(s => s.PlannedAmount)
-                .ToListAsync(); ;
+                .ToListAsync(); 
         }
 
         public StatisticsDto calculateStatistics(List<int?> list)
@@ -72,6 +76,42 @@ namespace Kieszonkowe.Services
             statistics.modeAmount = ModeAmount(list);
             statistics.standardDeviationAmount = StandardDeviationAmount(list);
             return statistics;
+        }
+
+        public async Task<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
+        {
+            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            StatisticsDto statistics = new StatisticsDto()
+            {
+                meanAmount = MeanAmount(list),
+                medianAmount = MedianAmount(list),
+                modeAmount = ModeAmount(list),
+                standardDeviationAmount = StandardDeviationAmount(list)
+            };
+            return statistics;
+        }
+
+        public async Task<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, Guid regionId)
+        {
+            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            StatisticsDto statistics = new StatisticsDto()
+            {
+                meanAmount = MeanAmount(list),
+                medianAmount = MedianAmount(list),
+                modeAmount = ModeAmount(list),
+                standardDeviationAmount = StandardDeviationAmount(list)
+            };
+            return statistics;
+        }
+
+        public async Task<List<Education>> GetEducations()
+        {
+            return await educationSet.ToListAsync();
+        }
+
+        public async Task<List<Region>> GetRegions()
+        {
+            return await regionSet.ToListAsync();
         }
     }
 }

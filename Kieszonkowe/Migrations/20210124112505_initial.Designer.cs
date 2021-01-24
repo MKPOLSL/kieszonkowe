@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kieszonkowe.Migrations
 {
     [DbContext(typeof(PocketMoneyContext))]
-    [Migration("20201105214450_initial")]
+    [Migration("20210124112505_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,7 +87,7 @@ namespace Kieszonkowe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<string>("BirthDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")

@@ -85,7 +85,7 @@ namespace Kieszonkowe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<string>("BirthDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")

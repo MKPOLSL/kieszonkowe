@@ -40,7 +40,7 @@ namespace Kieszonkowe.Migrations
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    BirthDate = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

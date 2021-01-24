@@ -68,16 +68,6 @@ namespace Kieszonkowe.Services
                 .ToListAsync(); 
         }
 
-        public StatisticsDto calculateStatistics(List<int?> list)
-        {
-            StatisticsDto statistics = new StatisticsDto();
-            statistics.meanAmount = MeanAmount(list);
-            statistics.medianAmount = MedianAmount(list);
-            statistics.modeAmount = ModeAmount(list);
-            statistics.standardDeviationAmount = StandardDeviationAmount(list);
-            return statistics;
-        }
-
         public async Task<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
             var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);

@@ -41,7 +41,7 @@ namespace Kieszonkowe.Services
             int? modeValue = list
                 .GroupBy(x => x)
                 .OrderByDescending(x => x.Count()).ThenBy(x => x.Key)
-                .Select(x => (int?)x.Key)
+                .Select(x => x.Key)
                 .FirstOrDefault();
             return modeValue;
         }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Kieszonkowe.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("children")]
     public class ChildrenController : Controller
     {
         private readonly IChildRecordService childRecordService;
@@ -27,6 +27,12 @@ namespace Kieszonkowe.Controllers
             return Ok(result);
         }
 
-       
+        [HttpGet]
+        [Route("childs")]
+        public IActionResult GetChildren(Guid parentID)
+        {
+            return Ok();
+        }
+
     }
 }

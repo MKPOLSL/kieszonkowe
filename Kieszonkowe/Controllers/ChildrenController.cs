@@ -31,7 +31,8 @@ namespace Kieszonkowe.Controllers
         [Route("childs")]
         public IActionResult GetChildren(Guid parentID)
         {
-            return Ok();
+            var result = childRecordService.GetChildren(parentID);
+            return Ok(result);
         }
 
     }

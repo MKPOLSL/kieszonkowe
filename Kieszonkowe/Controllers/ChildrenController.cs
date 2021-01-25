@@ -29,9 +29,10 @@ namespace Kieszonkowe.Controllers
 
         [HttpGet]
         [Route("childs")]
-        public IActionResult GetChildren(Guid parentID)
+        public IActionResult GetChildren([FromQuery] Guid id)
         {
-            var result = childRecordService.GetChildren(parentID);
+            
+            var result = childRecordService.GetChildren(id);
             return Ok(result);
         }
 

@@ -18,6 +18,7 @@ namespace Kieszonkowe.Services
         {
             this.pocketMoneyContext = pocketMoneyContext;
             childSet = pocketMoneyContext.Set<ChildRecord>();
+            parentSet = pocketMoneyContext.Set<Parent>();
         }
 
         public async Task<ChildRecord> CreateChildRecord(ChildRecord childRecord)
@@ -29,6 +30,7 @@ namespace Kieszonkowe.Services
 
         public List<ChildRecord> GetChildren(Guid parentID)
         {
+            pocketMoneyContext.SaveChanges();
             return parentSet.Find(parentID).Children.ToList();
         }
     }

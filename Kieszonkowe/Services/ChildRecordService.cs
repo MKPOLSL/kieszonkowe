@@ -13,6 +13,7 @@ namespace Kieszonkowe.Services
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
         private readonly DbSet<Parent> parentSet;
+        private readonly StatisticsService statistics;
 
         public ChildRecordService(PocketMoneyContext pocketMoneyContext)
         {
@@ -30,8 +31,14 @@ namespace Kieszonkowe.Services
 
         public List<ChildRecord> GetChildren(Guid parentID)
         {
-            pocketMoneyContext.SaveChanges();
-            return parentSet.Find(parentID).Children.ToList();
+            var parent = parentSet
+                .Include(p => p.Children)
+                .ThenInclude(p => p.Region)
+                .Include(p => p.Children)
+                .ThenInclude(p => p.Education)
+                .Where(p => p.Id == parentID)
+                .FirstOrDefault();
+            return parent.Children.ToList();
         }
     }
 }

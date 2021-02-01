@@ -45,6 +45,12 @@ namespace Kieszonkowe.Migrations
                     b.Property<Guid?>("EducationId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("TEXT");
 

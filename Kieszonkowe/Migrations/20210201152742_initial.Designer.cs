@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kieszonkowe.Migrations
 {
     [DbContext(typeof(PocketMoneyContext))]
-    [Migration("20210124112505_initial")]
+    [Migration("20210201152742_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,12 @@ namespace Kieszonkowe.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid?>("EducationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("ParentId")

@@ -65,10 +65,12 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     EducationId = table.Column<Guid>(nullable: true),
                     RegionId = table.Column<Guid>(nullable: true),
                     PlannedAmount = table.Column<int>(nullable: true),
                     ActualAmount = table.Column<int>(nullable: true),
+                    IsHidden = table.Column<bool>(nullable: false),
                     ParentId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>

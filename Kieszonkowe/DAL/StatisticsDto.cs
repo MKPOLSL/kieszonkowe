@@ -2,9 +2,9 @@
 {
     public class StatisticsDto
     { 
-        public double? meanAmount { get; set; }
-        public double? standardDeviationAmount { get; set; }
-        public double? modeAmount { get; set; }
-        public double? medianAmount { get; set; }
+        public double? MeanAmount { get; set; }
+        public double? StandardDeviationAmount { get; set; }
+        public double? ModeAmount { get; set; }
+        public double? MedianAmount { get; set; }
     }
 }

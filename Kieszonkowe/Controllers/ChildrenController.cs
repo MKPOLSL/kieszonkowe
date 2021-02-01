@@ -1,4 +1,5 @@
-﻿using Kieszonkowe.Entities;
+﻿using Kieszonkowe.DAL;
+using Kieszonkowe.Entities;
 using Kieszonkowe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,12 +20,14 @@ namespace Kieszonkowe.Controllers
             this.childRecordService = childRecordService;
         }
 
+        //WIP
         [HttpPost]
-        [Route("add")]
-        public async Task<IActionResult> CreateChildRecord(ChildRecord childRecord)
+        [Route("addChild")]
+        public async Task<IActionResult> CreateChildRecord([FromQuery] Guid id, [FromBody] ChildDto child)
         {
-            var result = await childRecordService.CreateChildRecord(childRecord);
-            return Ok(result);
+            //var result = await childRecordService.CreateChildRecord(child);
+            //return Ok(result);
+            return Ok();
         }
 
         [HttpGet]

@@ -73,10 +73,10 @@ namespace Kieszonkowe.Services
             var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
             StatisticsDto statistics = new StatisticsDto()
             {
-                meanAmount = MeanAmount(list),
-                medianAmount = MedianAmount(list),
-                modeAmount = ModeAmount(list),
-                standardDeviationAmount = StandardDeviationAmount(list)
+                MeanAmount = MeanAmount(list),
+                MedianAmount = MedianAmount(list),
+                ModeAmount = ModeAmount(list),
+                StandardDeviationAmount = StandardDeviationAmount(list)
             };
             return statistics;
         }
@@ -86,10 +86,10 @@ namespace Kieszonkowe.Services
             var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
             StatisticsDto statistics = new StatisticsDto()
             {
-                meanAmount = MeanAmount(list),
-                medianAmount = MedianAmount(list),
-                modeAmount = ModeAmount(list),
-                standardDeviationAmount = StandardDeviationAmount(list)
+                MeanAmount = MeanAmount(list),
+                MedianAmount = MedianAmount(list),
+                ModeAmount = ModeAmount(list),
+                StandardDeviationAmount = StandardDeviationAmount(list)
             };
             return statistics;
         }

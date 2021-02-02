@@ -27,7 +27,7 @@ namespace Kieszonkowe.Controllers
                 PlannedAmount = 20,
                 ActualAmount = 20000
             };
-            var result = await childRecordService.CreateChildRecord(childRecord);
+            
             return "pies";
         }
 

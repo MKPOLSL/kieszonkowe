@@ -74,7 +74,7 @@ namespace Kieszonkowe.Services
         public StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
             var list = GetPlannedAmountListForRegionAndEducation(educationId, regionId);
-            if (list == null)
+            if (list == null || !list.Any())
                 return null;
             StatisticsDto statistics = new StatisticsDto()
             {

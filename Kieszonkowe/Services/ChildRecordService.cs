@@ -14,7 +14,6 @@ namespace Kieszonkowe.Services
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
         private readonly DbSet<Parent> parentSet;
-        private readonly StatisticsService statistics;
 
         public ChildRecordService(PocketMoneyContext pocketMoneyContext)
         {

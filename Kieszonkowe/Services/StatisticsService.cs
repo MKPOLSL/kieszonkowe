@@ -29,11 +29,11 @@ namespace Kieszonkowe.Services
             return list.Sum() / list.Count();
         }
 
-        public double? MedianAmount(List<int?> list)
+        public double? MedianAmount(List<int?> list)    
         {
             var count = list.Count();
             var orderedList = list.OrderBy(l => l.Value);
-            return orderedList.ElementAt(count / 2).Value + orderedList.ElementAt((count - 1) / 2).Value / 2;
+            return (orderedList.ElementAt(count / 2).Value + orderedList.ElementAt((count - 1) / 2).Value) / 2;
         }
 
         public int? ModeAmount(List<int?> list)
@@ -54,23 +54,26 @@ namespace Kieszonkowe.Services
         public async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
             return await childSet
-                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
                 .Include(e => e.Region)
+                .Include(e => e.Education)
+                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
                 .Select(s => s.ActualAmount)
                 .ToListAsync();
         }
-        public async Task<List<int?>> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        public List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
-            return await childSet
-                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
+            return childSet
                 .Include(e => e.Region)
+                .Include(e => e.Education)
+                .ToList()
+                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
                 .Select(s => s.PlannedAmount)
-                .ToListAsync(); 
+                .ToList();
         }
 
-        public async Task<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
+        public StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
-            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            var list = GetPlannedAmountListForRegionAndEducation(educationId, regionId);
             StatisticsDto statistics = new StatisticsDto()
             {
                 MeanAmount = MeanAmount(list),

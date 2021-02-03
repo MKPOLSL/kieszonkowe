@@ -36,9 +36,9 @@ namespace Kieszonkowe.Controllers
 
         [HttpPost]
         [Route("statistics")]
-        public async Task<IActionResult> CalculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
+        public IActionResult CalculateStatisticsForPlannedAmount([FromBody] RegionAndEducationDto ids)
         {
-            var statistics = await statisticsService.calculateStatisticsForPlannedAmount(educationId, regionId);
+            var statistics = statisticsService.calculateStatisticsForPlannedAmount(ids.EducationID, ids.RegionID);
             return Ok(statistics);
         }
 

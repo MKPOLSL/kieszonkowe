@@ -19,7 +19,7 @@ namespace Kieszonkowe.Controllers
             this.userService = userService;
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<string> Get()
         {
             ChildRecord childRecord = new ChildRecord
@@ -29,7 +29,7 @@ namespace Kieszonkowe.Controllers
             };
             
             return "pies";
-        }
+        }*/
 
         [HttpPost]
         [Route("register")]

@@ -53,7 +53,8 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    RegionName = table.Column<string>(nullable: true)
+                    RegionName = table.Column<string>(nullable: true),
+                    IsCity = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

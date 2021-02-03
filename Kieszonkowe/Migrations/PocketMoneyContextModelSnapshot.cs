@@ -117,6 +117,9 @@ namespace Kieszonkowe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsCity")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("RegionName")
                         .HasColumnType("TEXT");
 

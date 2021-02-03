@@ -8,5 +8,6 @@ namespace Kieszonkowe.Entities
         [Key]
         public Guid Id { get; set; }
         public string RegionName { get; set; }
+        public bool IsCity { get; set; }
     }
 }

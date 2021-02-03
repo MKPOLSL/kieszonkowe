@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kieszonkowe.Migrations
 {
     [DbContext(typeof(PocketMoneyContext))]
-    [Migration("20210201152742_initial")]
+    [Migration("20210203183124_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,9 @@ namespace Kieszonkowe.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsCity")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("RegionName")
                         .HasColumnType("TEXT");

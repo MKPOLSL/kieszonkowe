@@ -2,6 +2,7 @@
 using Kieszonkowe.Entities;
 using Kieszonkowe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace Kieszonkowe.Controllers
 
         [HttpPost]
         [Route("addChild")]
-        public async Task<IActionResult> CreateChildRecord([FromQuery] Guid id, [FromBody] ChildDto child)
+        public async Task<IActionResult> CreateChildRecord([FromBody] ParentAndChildDto parentAndChild)
         {
-            var result = await childRecordService.CreateChildRecord(id, child);
+            var result = await childRecordService.CreateChildRecord(parentAndChild.ParentId, parentAndChild.Child);
             if (result != null)
                 return Ok();
             else return BadRequest();

@@ -44,11 +44,11 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpPost]  
+        [HttpGet]  
         [Route("statisticsEducation")]
-        public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] Guid educationId, [FromBody] bool isCity)
+        public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] StatisticsListRequestDto request)
         {
-            var statistics = statisticsService.calculateStatisticsForPlannedAmount(educationId, isCity);
+            var statistics = statisticsService.calculateStatisticsForPlannedAmount(request.educationId, request.isCity);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();
@@ -64,11 +64,11 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("statisticsActualEducation")]
-        public IActionResult CalculateStatisticsForActualAmount([FromBody] Guid educationId, bool isCity)
+        public IActionResult CalculateStatisticsForActualAmount([FromQuery] StatisticsListRequestDto request)
         {
-            var statistics = statisticsService.calculateStatisticsForActualAmount(educationId, isCity);
+            var statistics = statisticsService.calculateStatisticsForActualAmount(request.educationId, request.isCity);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();

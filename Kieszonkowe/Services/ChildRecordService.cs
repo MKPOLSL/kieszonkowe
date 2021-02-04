@@ -40,17 +40,8 @@ namespace Kieszonkowe.Services
                 ParentId = id
             };
             var createdChild = await childSet.AddAsync(child);
-            return createdChild.Entity;
-        }
-
-        public async Task addChildToParent(Guid id, ChildRecord result)
-        {
-            var parent = parentSet
-                .Include(p => p.Children)
-                .Where(p => p.Id == id)
-                .FirstOrDefault();
-            parent.Children.Add(result);
             await pocketMoneyContext.SaveChangesAsync();
+            return child;
         }
 
         public List<ChildRecord> GetChildren(Guid parentID)

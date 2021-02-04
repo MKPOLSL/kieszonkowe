@@ -20,15 +20,14 @@ namespace Kieszonkowe.Controllers
             this.childRecordService = childRecordService;
         }
 
-        //WIP
         [HttpPost]
         [Route("addChild")]
         public async Task<IActionResult> CreateChildRecord([FromQuery] Guid id, [FromBody] ChildDto child)
         {
             var result = await childRecordService.CreateChildRecord(id, child);
-            await childRecordService.addChildToParent(id, result);
-            //return Ok(result);
-            return Ok();
+            if (result != null)
+                return Ok();
+            else return BadRequest();
         }
 
         [HttpGet]

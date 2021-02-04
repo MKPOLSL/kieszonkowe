@@ -51,26 +51,19 @@ namespace Kieszonkowe.Services
             var mean = MeanAmount(list);
             return Math.Sqrt(list.Average(v => Math.Pow((double)(v - mean), 2)));
         }
-        public async Task<List<int?>> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        public List<int?> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
-            return await childSet
-                .Include(e => e.Region)
-                .Include(e => e.Education)
-                .Where(x => x.Region.Id == regionId && x.Education.Id == educationId)
-                .Select(s => s.ActualAmount)
-                .ToListAsync();
-        }
-        public List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
-        {
-            var children = childSet
+            return childSet
                 .Include(e => e.Region)
                 .Include(e => e.Education)
                 .ToList()
-                .Where(e => e.Education.Id.Equals(educationId))
-                .GroupBy(e => e.Region)
-                .Select(s => s.Select(s => s.PlannedAmount).ToList())
+                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
+                .Select(s => s.ActualAmount)
                 .ToList();
-            
+        }
+
+        public List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        {
             return childSet
                 .Include(e => e.Region)
                 .Include(e => e.Education)
@@ -80,6 +73,31 @@ namespace Kieszonkowe.Services
                 .ToList();
         }
 
+        public List<List<int?>> GetPlannedAmountListForEducation(Guid educationId)
+        {
+            return childSet
+                .Include(e => e.Region)
+                .Include(e => e.Education)
+                .ToList()
+                .Where(e => e.Education.Id.Equals(educationId))
+                .GroupBy(e => e.Region)
+                .Select(s => s.Select(s => s.PlannedAmount).ToList())
+                .ToList();
+
+        }
+
+        public List<List<int?>> GetActualAmountListForEducation(Guid educationId)
+        {
+            return childSet
+                .Include(e => e.Region)
+                .Include(e => e.Education)
+                .ToList()
+                .Where(e => e.Education.Id.Equals(educationId))
+                .GroupBy(e => e.Region)
+                .Select(s => s.Select(s => s.ActualAmount).ToList())
+                .ToList();
+
+        }
         public StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
             var list = GetPlannedAmountListForRegionAndEducation(educationId, regionId);
@@ -95,9 +113,11 @@ namespace Kieszonkowe.Services
             return statistics;
         }
 
-        public async Task<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, Guid regionId)
+        public StatisticsDto calculateStatisticsForActualAmount(Guid educationId, Guid regionId)
         {
-            var list = await GetActualAmountListForRegionAndEducation(educationId, regionId);
+            var list = GetActualAmountListForRegionAndEducation(educationId, regionId);
+            if (list == null || !list.Any())
+                return null;
             StatisticsDto statistics = new StatisticsDto()
             {
                 MeanAmount = MeanAmount(list),

@@ -9,9 +9,9 @@ namespace Kieszonkowe.Interfaces
     public interface IStatisticsService
     {
         StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId);
-        List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId);
+        List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, bool isCity);
         StatisticsDto calculateStatisticsForActualAmount(Guid educationId, Guid regionId);
-        List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId);
+        List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, bool isCity);
         Task<List<Education>> GetEducations();
         Task<List<Region>> GetRegions();
     }

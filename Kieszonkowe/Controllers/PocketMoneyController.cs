@@ -46,9 +46,9 @@ namespace Kieszonkowe.Controllers
 
         [HttpGet]  
         [Route("statisticsEducation")]
-        public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] Guid educationId)
+        public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] Guid educationId, [FromBody] bool isCity)
         {
-            var statistics = statisticsService.calculateStatisticsForPlannedAmount(educationId);
+            var statistics = statisticsService.calculateStatisticsForPlannedAmount(educationId, isCity);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();
@@ -66,9 +66,9 @@ namespace Kieszonkowe.Controllers
 
         [HttpGet]
         [Route("statisticsActualEducation")]
-        public IActionResult CalculateStatisticsForActualAmount([FromBody] Guid educationId)
+        public IActionResult CalculateStatisticsForActualAmount([FromBody] Guid educationId, bool isCity)
         {
-            var statistics = statisticsService.calculateStatisticsForActualAmount(educationId);
+            var statistics = statisticsService.calculateStatisticsForActualAmount(educationId, isCity);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();

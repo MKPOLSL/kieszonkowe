@@ -73,24 +73,24 @@ namespace Kieszonkowe.Services
                 .ToList();
         }
 
-        public Dictionary<Region, List<int?>> GetPlannedAmountListForEducation(Guid educationId)
+        public Dictionary<Region, List<int?>> GetPlannedAmountListForEducation(Guid educationId, bool isCity)
         {
             return childSet
                .Include(e => e.Region)
                .Include(e => e.Education)
                .ToList()
-               .Where(e => e.Education.Id.Equals(educationId))
+               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
                .GroupBy(e => e.Region)
                .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).ToList());
         }
 
-        public List<List<int?>> GetActualAmountListForEducation(Guid educationId)
+        public List<List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)
         {
             return childSet
                 .Include(e => e.Region)
                 .Include(e => e.Education)
                 .ToList()
-                .Where(e => e.Education.Id.Equals(educationId))
+                .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
                 .GroupBy(e => e.Region)
                 .Select(s => s.Select(s => s.ActualAmount).ToList())
                 .ToList();
@@ -128,9 +128,9 @@ namespace Kieszonkowe.Services
         }
 
 
-        public List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId)
+        public List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, bool isCity)
         {
-            var list = GetPlannedAmountListForEducation(educationId);
+            var list = GetPlannedAmountListForEducation(educationId, isCity);
             if (list == null || !list.Any())
                 return null;
             List<StatisticsDto> statistics = new List<StatisticsDto>();
@@ -148,9 +148,9 @@ namespace Kieszonkowe.Services
             return statistics;
         }
 
-        public List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId)
+        public List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, bool isCity)
         {
-            var list = GetActualAmountListForEducation(educationId);
+            var list = GetActualAmountListForEducation(educationId, isCity);
             if (list == null || !list.Any())
                 return null;
             List<StatisticsDto> statistics = new List<StatisticsDto>();

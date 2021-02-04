@@ -44,7 +44,7 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpGet]  
+        [HttpPost]  
         [Route("statisticsEducation")]
         public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] Guid educationId, [FromBody] bool isCity)
         {
@@ -64,7 +64,7 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("statisticsActualEducation")]
         public IActionResult CalculateStatisticsForActualAmount([FromBody] Guid educationId, bool isCity)
         {

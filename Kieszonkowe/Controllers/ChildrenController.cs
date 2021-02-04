@@ -25,7 +25,7 @@ namespace Kieszonkowe.Controllers
         [Route("addChild")]
         public async Task<IActionResult> CreateChildRecord([FromQuery] Guid id, [FromBody] ChildDto child)
         {
-            var result = await childRecordService.CreateChildRecord(child);
+            var result = await childRecordService.CreateChildRecord(id, child);
             await childRecordService.addChildToParent(id, result);
             //return Ok(result);
             return Ok();

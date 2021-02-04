@@ -62,6 +62,15 @@ namespace Kieszonkowe.Services
         }
         public List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
+            var children = childSet
+                .Include(e => e.Region)
+                .Include(e => e.Education)
+                .ToList()
+                .Where(e => e.Education.Id.Equals(educationId))
+                .GroupBy(e => e.Region)
+                .Select(s => s.Select(s => s.PlannedAmount).ToList())
+                .ToList();
+            
             return childSet
                 .Include(e => e.Region)
                 .Include(e => e.Education)

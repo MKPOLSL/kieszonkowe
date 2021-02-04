@@ -22,7 +22,7 @@ namespace Kieszonkowe.Services
             parentSet = pocketMoneyContext.Set<Parent>();
         }
 
-        public async Task<ChildRecord> CreateChildRecord(ChildDto childRecord)
+        public async Task<ChildRecord> CreateChildRecord(Guid id, ChildDto childRecord)
         {
             var region = pocketMoneyContext.Regions
                 .Where(x => x.RegionName == childRecord.Region)
@@ -36,7 +36,8 @@ namespace Kieszonkowe.Services
                 Education = education,
                 Name = childRecord.Name,
                 PlannedAmount = childRecord.PlannedAmount,  
-                ActualAmount = childRecord.RealAmount
+                ActualAmount = childRecord.RealAmount,
+                ParentId = id
             };
             var createdChild = await childSet.AddAsync(child);
             return createdChild.Entity;
@@ -46,9 +47,6 @@ namespace Kieszonkowe.Services
         {
             var parent = parentSet
                 .Include(p => p.Children)
-                .ThenInclude(p => p.Region)
-                .Include(p => p.Children)
-                .ThenInclude(p => p.Education)
                 .Where(p => p.Id == id)
                 .FirstOrDefault();
             parent.Children.Add(result);

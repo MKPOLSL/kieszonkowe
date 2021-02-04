@@ -8,7 +8,7 @@ namespace Kieszonkowe.Interfaces
 {
     public interface IChildRecordService
     {
-        Task<ChildRecord> CreateChildRecord(ChildDto childRecord);
+        Task<ChildRecord> CreateChildRecord(Guid id, ChildDto childRecord);
         List<ChildRecord> GetChildren(Guid ParentID);
         Task addChildToParent(Guid id, ChildRecord result);
     }

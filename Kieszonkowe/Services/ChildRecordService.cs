@@ -36,7 +36,7 @@ namespace Kieszonkowe.Services
                 Education = education,
                 Name = childRecord.Name,
                 PlannedAmount = childRecord.PlannedAmount,  
-                ActualAmount = childRecord.RealAmount,
+                ActualAmount = childRecord.ActualAmount,
                 ParentId = id
             };
             var createdChild = await childSet.AddAsync(child);

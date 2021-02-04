@@ -44,6 +44,16 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
+        [HttpGet]  
+        [Route("statisticsEducation")]
+        public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] Guid educationId)
+        {
+            var statistics = statisticsService.calculateStatisticsForPlannedAmount(educationId);
+            if (statistics != null)
+                return Ok(statistics);
+            return BadRequest();
+        }
+
         [HttpPost]
         [Route("statisticsActual")]
         public IActionResult CalculateStatisticsForActualAmount([FromBody] RegionAndEducationDto ids)
@@ -53,6 +63,17 @@ namespace Kieszonkowe.Controllers
                 return Ok(statistics);
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("statisticsActualEducation")]
+        public IActionResult CalculateStatisticsForActualAmount([FromBody] Guid educationId)
+        {
+            var statistics = statisticsService.calculateStatisticsForActualAmount(educationId);
+            if (statistics != null)
+                return Ok(statistics);
+            return BadRequest();
+        }
+
 
         [HttpGet]
         [Route("educations")]

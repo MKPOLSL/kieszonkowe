@@ -10,7 +10,7 @@ namespace Kieszonkowe.DAL
         public string Name { get; set; }
         public string Education { get; set; }
         public int PlannedAmount { get; set; }
-        public int RealAmount { get; set; }
+        public int ActualAmount { get; set; }
         public string Region { get; set; } 
     }
 }

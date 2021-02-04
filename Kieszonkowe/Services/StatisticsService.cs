@@ -73,17 +73,15 @@ namespace Kieszonkowe.Services
                 .ToList();
         }
 
-        public List<List<int?>> GetPlannedAmountListForEducation(Guid educationId)
+        public Dictionary<Region, List<int?>> GetPlannedAmountListForEducation(Guid educationId)
         {
             return childSet
-                .Include(e => e.Region)
-                .Include(e => e.Education)
-                .ToList()
-                .Where(e => e.Education.Id.Equals(educationId))
-                .GroupBy(e => e.Region)
-                .Select(s => s.Select(s => s.PlannedAmount).ToList())
-                .ToList();
-
+               .Include(e => e.Region)
+               .Include(e => e.Education)
+               .ToList()
+               .Where(e => e.Education.Id.Equals(educationId))
+               .GroupBy(e => e.Region)
+               .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).ToList());
         }
 
         public List<List<int?>> GetActualAmountListForEducation(Guid educationId)
@@ -105,6 +103,7 @@ namespace Kieszonkowe.Services
                 return null;
             StatisticsDto statistics = new StatisticsDto()
             {
+                RegionName = pocketMoneyContext.Regions.Where(r => r.Id == regionId).FirstOrDefault().RegionName,
                 MeanAmount = MeanAmount(list),
                 MedianAmount = MedianAmount(list),
                 ModeAmount = ModeAmount(list),
@@ -125,6 +124,46 @@ namespace Kieszonkowe.Services
                 ModeAmount = ModeAmount(list),
                 StandardDeviationAmount = StandardDeviationAmount(list)
             };
+            return statistics;
+        }
+
+
+        public List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId)
+        {
+            var list = GetPlannedAmountListForEducation(educationId);
+            if (list == null || !list.Any())
+                return null;
+            List<StatisticsDto> statistics = new List<StatisticsDto>();
+            foreach (var element in list)
+            {
+                statistics.Add(new StatisticsDto()
+                {
+                    RegionName = element.Key.RegionName,
+                    MeanAmount = MeanAmount(element.Value),
+                    MedianAmount = MedianAmount(element.Value),
+                    ModeAmount = ModeAmount(element.Value),
+                    StandardDeviationAmount = StandardDeviationAmount(element.Value)
+                });
+            }
+            return statistics;
+        }
+
+        public List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId)
+        {
+            var list = GetActualAmountListForEducation(educationId);
+            if (list == null || !list.Any())
+                return null;
+            List<StatisticsDto> statistics = new List<StatisticsDto>();
+            foreach (var element in list)
+            {
+                statistics.Add(new StatisticsDto()
+                {
+                    MeanAmount = MeanAmount(element),
+                    MedianAmount = MedianAmount(element),
+                    ModeAmount = ModeAmount(element),
+                    StandardDeviationAmount = StandardDeviationAmount(element)
+                });
+            }
             return statistics;
         }
 

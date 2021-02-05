@@ -36,7 +36,6 @@ namespace Kieszonkowe.Services
                 Education = education,
                 Name = childRecord.Name,
                 PlannedAmount = childRecord.PlannedAmount,  
-                ActualAmount = childRecord.ActualAmount,
                 ParentId = id
             };
             var createdChild = await childSet.AddAsync(child);
@@ -75,6 +74,16 @@ namespace Kieszonkowe.Services
                 .Where(c => c.Id == childID)
                 .FirstOrDefault();
             child.IsHidden = true;
+            await pocketMoneyContext.SaveChangesAsync();
+            return child;
+        }
+
+        public async Task<ChildRecord> CompleteChildRecord(Guid childId, int actualAmount)
+        {
+            var child = childSet
+                .Where(c => c.Id == childId)
+                .FirstOrDefault();
+            child.ActualAmount = actualAmount;
             await pocketMoneyContext.SaveChangesAsync();
             return child;
         }

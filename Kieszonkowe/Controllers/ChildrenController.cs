@@ -49,10 +49,22 @@ namespace Kieszonkowe.Controllers
 
         [HttpGet]
         [Route("hide")]
-        public IActionResult HideChild([FromQuery] Guid childId)
+        public async Task<IActionResult> HideChild([FromQuery] Guid childId)
         {
-            var result = childRecordService.HideChild(childId);
-            return Ok();
+            var result = await childRecordService.HideChild(childId);
+            if (result != null)
+                return Ok();
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("complete")]
+        public async Task<IActionResult> CompleteChildRecord([FromBody] CompleteChildRecordDto request)
+        {
+            var result = await childRecordService.CompleteChildRecord(request.ChildId, request.ActualAmount);
+            if (result != null)
+                return Ok();
+            return BadRequest();
         }
     }
 }

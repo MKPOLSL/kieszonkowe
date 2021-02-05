@@ -12,5 +12,6 @@ namespace Kieszonkowe.Interfaces
         List<ChildRecord> GetChildren(Guid ParentID);
         ChildRecord GetChild(Guid childID);
         Task<ChildRecord> HideChild(Guid childID);
+        Task<ChildRecord> CompleteChildRecord(Guid childId, int actualAmount);
     }
 }

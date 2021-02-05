@@ -67,9 +67,9 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("deleteChild")]
-        public async Task<IActionResult> DeleteChildRecord([FromBody] Guid childId)
+        public async Task<IActionResult> DeleteChildRecord([FromQuery] Guid childId)
         {
             await childRecordService.DeleteChildRecord(childId);
             return Ok();

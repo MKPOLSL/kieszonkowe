@@ -87,5 +87,14 @@ namespace Kieszonkowe.Services
             await pocketMoneyContext.SaveChangesAsync();
             return child;
         }
+
+        public async Task DeleteChildRecord(Guid childId)
+        {
+            var child = childSet
+                .Where(c => c.Id == childId)
+                .FirstOrDefault();
+            childSet.Remove(child);
+            await pocketMoneyContext.SaveChangesAsync();
+        }
     }
 }

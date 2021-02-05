@@ -13,5 +13,6 @@ namespace Kieszonkowe.Interfaces
         ChildRecord GetChild(Guid childID);
         Task<ChildRecord> HideChild(Guid childID);
         Task<ChildRecord> CompleteChildRecord(Guid childId, int actualAmount);
+        Task DeleteChildRecord(Guid childId);
     }
 }

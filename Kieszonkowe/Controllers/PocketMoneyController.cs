@@ -65,7 +65,7 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpGet]
-        [Route("statisticsActualEducation")]
+        [Route("statisticsEducationActual")]
         public IActionResult CalculateStatisticsForActualAmount([FromQuery] StatisticsListRequestDto request)
         {
             var statistics = statisticsService.calculateStatisticsForActualAmount(request.educationId, request.isCity);

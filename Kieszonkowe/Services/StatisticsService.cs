@@ -84,16 +84,15 @@ namespace Kieszonkowe.Services
                .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).ToList());
         }
 
-        public List<List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)
+        public Dictionary<Region, List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)
         {
             return childSet
-                .Include(e => e.Region)
-                .Include(e => e.Education)
-                .ToList()
-                .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
-                .GroupBy(e => e.Region)
-                .Select(s => s.Select(s => s.ActualAmount).ToList())
-                .ToList();
+               .Include(e => e.Region)
+               .Include(e => e.Education)
+               .ToList()
+               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
+               .GroupBy(e => e.Region)
+               .ToDictionary(g => g.Key, g => g.Select(e => e.ActualAmount).Where(e => e != null).ToList());
 
         }
         public StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
@@ -119,6 +118,7 @@ namespace Kieszonkowe.Services
                 return null;
             StatisticsDto statistics = new StatisticsDto()
             {
+                RegionName = pocketMoneyContext.Regions.Where(r => r.Id == regionId).FirstOrDefault().RegionName,
                 MeanAmount = MeanAmount(list),
                 MedianAmount = MedianAmount(list),
                 ModeAmount = ModeAmount(list),
@@ -158,10 +158,11 @@ namespace Kieszonkowe.Services
             {
                 statistics.Add(new StatisticsDto()
                 {
-                    MeanAmount = MeanAmount(element),
-                    MedianAmount = MedianAmount(element),
-                    ModeAmount = ModeAmount(element),
-                    StandardDeviationAmount = StandardDeviationAmount(element)
+                    RegionName = element.Key.RegionName,
+                    MeanAmount = MeanAmount(element.Value),
+                    MedianAmount = MedianAmount(element.Value),
+                    ModeAmount = ModeAmount(element.Value),
+                    StandardDeviationAmount = StandardDeviationAmount(element.Value)
                 });
             }
             return statistics;

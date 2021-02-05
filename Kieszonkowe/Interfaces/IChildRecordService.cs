@@ -10,5 +10,7 @@ namespace Kieszonkowe.Interfaces
     {
         Task<ChildRecord> CreateChildRecord(Guid id, ChildDto childRecord);
         List<ChildRecord> GetChildren(Guid ParentID);
+        ChildRecord GetChild(Guid childID);
+        Task<ChildRecord> HideChild(Guid childID);
     }
 }

@@ -32,12 +32,27 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpGet]
-        [Route("childs")]
-        public IActionResult GetChildren([FromQuery] Guid id)
+        [Route("children")]
+        public IActionResult GetChildren([FromQuery] Guid parentId)
         {
-            var result = childRecordService.GetChildren(id);
+            var result = childRecordService.GetChildren(parentId);
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("child")]
+        public IActionResult GetChild([FromQuery] Guid childId)
+        {
+            var result = childRecordService.GetChild(childId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("hide")]
+        public IActionResult HideChild([FromQuery] Guid childId)
+        {
+            var result = childRecordService.HideChild(childId);
+            return Ok();
+        }
     }
 }

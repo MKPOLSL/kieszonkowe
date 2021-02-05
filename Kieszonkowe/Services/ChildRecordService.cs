@@ -44,6 +44,15 @@ namespace Kieszonkowe.Services
             return child;
         }
 
+        public ChildRecord GetChild(Guid childID)
+        {
+            return childSet
+                .Include(p => p.Region)
+                .Include(p => p.Education)
+                .Where(c => c.Id == childID)
+                .FirstOrDefault();
+        }
+
         public List<ChildRecord> GetChildren(Guid parentID)
         {
             var parent = parentSet
@@ -53,7 +62,21 @@ namespace Kieszonkowe.Services
                 .ThenInclude(p => p.Education)
                 .Where(p => p.Id == parentID)
                 .FirstOrDefault();
-            return parent.Children.ToList();
+            if (parent == null)
+                return null;
+            return parent.Children.Where(c => c.IsHidden == false).ToList();
+        }
+
+        public async Task<ChildRecord> HideChild(Guid childID)
+        {
+            var child = childSet
+                .Include(p => p.Region)
+                .Include(p => p.Education)
+                .Where(c => c.Id == childID)
+                .FirstOrDefault();
+            child.IsHidden = true;
+            await pocketMoneyContext.SaveChangesAsync();
+            return child;
         }
     }
 }

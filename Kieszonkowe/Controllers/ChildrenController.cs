@@ -47,11 +47,11 @@ namespace Kieszonkowe.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("hide")]
-        public async Task<IActionResult> HideChild([FromQuery] Guid childId)
+        public async Task<IActionResult> HideChild([FromBody] ChildIdDto childId)
         {
-            var result = await childRecordService.HideChild(childId);
+            var result = await childRecordService.HideChild(childId.ChildId);
             if (result != null)
                 return Ok();
             return BadRequest();
@@ -67,11 +67,11 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("deleteChild")]
-        public async Task<IActionResult> DeleteChildRecord([FromQuery] Guid childId)
+        public async Task<IActionResult> DeleteChildRecord([FromBody] ChildIdDto childId)
         {
-            await childRecordService.DeleteChildRecord(childId);
+            await childRecordService.DeleteChildRecord(childId.ChildId);
             return Ok();
         }
     }

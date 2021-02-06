@@ -58,7 +58,7 @@ namespace Kieszonkowe.Services
                 .Include(e => e.Education)
                 .ToList()
                 .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
-                .Select(s => s.ActualAmount)
+                .Select(s => s.ActualAmount).Where(e => e != null)
                 .ToList();
         }
 
@@ -69,7 +69,7 @@ namespace Kieszonkowe.Services
                 .Include(e => e.Education)
                 .ToList()
                 .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
-                .Select(s => s.PlannedAmount)
+                .Select(s => s.PlannedAmount).Where(e => e != null)
                 .ToList();
         }
 
@@ -81,7 +81,7 @@ namespace Kieszonkowe.Services
                .ToList()
                .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
                .GroupBy(e => e.Region)
-               .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).ToList());
+               .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).Where(e => e != null).ToList());
         }
 
         public Dictionary<Region, List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)

@@ -30,6 +30,7 @@ namespace Kieszonkowe.Services
             var education = pocketMoneyContext.EducationDegrees
                 .Where(x => x.EducationDegree == childRecord.Education)
                 .FirstOrDefault();
+            pocketMoneyContext.Parents.Find(id).IsActive = true;
             ChildRecord child = new ChildRecord()
             {
                 Region = region,

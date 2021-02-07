@@ -20,6 +20,31 @@ namespace Kieszonkowe.Services
             this.adminSet = pocketMoneyContext.Set<Administrator>();
         }
 
+        public Task<Administrator> AddAdministrator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ChildRecord> AddChildRecord(ChildDto child)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Education> AddEducation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Parent> AddParent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Region> AddRegion()
+        {
+            throw new NotImplementedException();
+        }
+
         public Administrator AuthenticateAdmin(UserLoginDto admin)
         {
             var authenticatedAdmin = adminSet.Where(a => a.Username == admin.Username && a.Password == admin.Password);

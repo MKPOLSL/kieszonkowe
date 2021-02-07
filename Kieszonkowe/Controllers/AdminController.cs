@@ -77,5 +77,14 @@ namespace Kieszonkowe.Controllers
             return Ok(regions);
         }
 
+        [HttpPost]
+        [Route("panel/children/add")]
+        public async Task<IActionResult> AddChildRecord([FromBody] ChildDto child)
+        { 
+            //var childRecord = await adminService.AddChildRecord(child);
+            //if (childRecord == null)
+                return BadRequest();
+            //return Ok(childRecord);
+        }
     }
 }

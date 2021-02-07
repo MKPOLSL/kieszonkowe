@@ -99,7 +99,7 @@ namespace Kieszonkowe.Controllers
 
         [HttpPost]
         [Route("panel/regions/add")]
-        public async Task<IActionResult> AddRegion([FromBody] RegionDto region)
+        public async Task<IActionResult> AddRegion([FromBody] Region region)
         {
             var addedRegion = await adminService.AddRegion(region);
             if (addedRegion == null)
@@ -108,8 +108,8 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpPost]
-        [Route("panel/regions/add")]
-        public async Task<IActionResult> AddParent([FromBody] ParentDto parent)
+        [Route("panel/parents/add")]
+        public async Task<IActionResult> AddParent([FromBody] Parent parent)
         {
             var addedParent = await adminService.AddParent(parent);
             if (addedParent == null)
@@ -118,7 +118,7 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpPost]
-        [Route("panel/regions/add")]
+        [Route("panel/administrators/add")]
         public async Task<IActionResult> AddAdministrator([FromBody] Administrator admin)
         {
             var addedAdministrator = await adminService.AddAdministrator(admin);

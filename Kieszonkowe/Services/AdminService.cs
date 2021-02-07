@@ -58,37 +58,18 @@ namespace Kieszonkowe.Services
             return education;
         }
 
-        public async Task<Parent> AddParent(ParentDto parent)
+        public async Task<Parent> AddParent(Parent parent)
         {
-            var isActive = false;
-            if (parent.IsActive.Equals("true"))
-                isActive = true;
-            var addedParent = new Parent()
-            {
-                BirthDate = parent.Birthdate,
-                Password = parent.Password,
-                IsActive = isActive,
-                Email = parent.Email,
-                Username = parent.Username
-            };
-            pocketMoneyContext.Parents.Add(addedParent);
+            pocketMoneyContext.Parents.Add(parent);
             await pocketMoneyContext.SaveChangesAsync();
-            return addedParent;
+            return parent;
         }
 
-        public async Task<Region> AddRegion(RegionDto region)
+        public async Task<Region> AddRegion(Region region)
         {
-            var isCity = false;
-            if (region.isCity.Equals("true"))
-                isCity = true;
-            var addedRegion = new Region()
-            {
-                RegionName = region.RegionName,
-                IsCity = isCity
-            };
-            pocketMoneyContext.Regions.Add(addedRegion);
+            pocketMoneyContext.Regions.Add(region);
             await pocketMoneyContext.SaveChangesAsync();
-            return addedRegion;
+            return region;
         }
 
         public Administrator AuthenticateAdmin(UserLoginDto admin)

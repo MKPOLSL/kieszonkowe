@@ -18,9 +18,9 @@ namespace Kieszonkowe.Interfaces
         Task<List<Administrator>> GetAdministrators();
 
         Task<ChildRecord> AddChildRecord(ChildDto child);
-        Task<Region> AddRegion(RegionDto region);
+        Task<Region> AddRegion(Region region);
         Task<Education> AddEducation(Education education);
         Task<Administrator> AddAdministrator(Administrator admin);
-        Task<Parent> AddParent(ParentDto parent);
+        Task<Parent> AddParent(Parent parent);
     }
 }

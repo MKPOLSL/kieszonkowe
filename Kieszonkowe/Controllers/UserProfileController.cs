@@ -53,20 +53,22 @@ namespace Kieszonkowe.Controllers
 
         [HttpPost]
         [Route("updateUserData")]
-        public async Task<IActionResult> UpdateUserData([FromBody] ParentChangeDataDto userData)
+        public async Task<IActionResult> UpdateParentData([FromBody] ParentChangeDataDto parentData)
         {
-            if (userService.UpdateUserData(userData))
-               return Ok();
-            return Forbid();
+            var parent = UpdateParentData(parentData);
+            if (parent == null)
+                return Forbid();
+            return Ok(parent);
         }
 
         [HttpPost]
         [Route("updateUserPassword")]
-        public async Task<IActionResult> UpdateUserPassword([FromBody] ParentChangePasswordDto userPassword)
+        public async Task<IActionResult> UpdateParentPassword([FromBody] ParentChangePasswordDto parentPassword)
         {
-            if (userService.UpdateUserPassword(userPassword))
-                return Ok();
-            return Forbid();
+            var parent = UpdateParentPassword(parentPassword);
+            if (parent == null)
+                return Forbid();
+            return Ok(parent);
         }
     }
 }

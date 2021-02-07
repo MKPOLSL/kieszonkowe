@@ -39,24 +39,26 @@ namespace Kieszonkowe.Services
             return user.FirstOrDefault();
         }
 
-        public bool UpdateUserData(ParentChangeDataDto userData)
+        public async Task<Parent> UpdateParentData(ParentChangeDataDto parentData)
         {
-            var user = parentSet.Where(e => e.Id == userData.Id);
+            var user = parentSet.Where(e => e.Id == parentData.Id).FirstOrDefault();
             if (user == null) 
-                return false;
-            user.FirstOrDefault().Email = userData.email;
-            user.FirstOrDefault().Username = userData.username;
-            user.FirstOrDefault().BirthDate = userData.birthDate;
-            return true;
+                return null;
+            user.Email = parentData.email;
+            user.Username = parentData.username;
+            user.BirthDate = parentData.birthDate;
+            await this.pocketMoneyContext.SaveChangesAsync();
+            return user;
         }
 
-        public bool UpdateUserPassword(ParentChangePasswordDto userPassword)
+        public async Task<Parent> UpdateParentPassword(ParentChangePasswordDto parentPassword)
         {
-            var user = parentSet.Where(e => e.Id == userPassword.Id);
+            var user = parentSet.Where(e => e.Id == parentPassword.Id).FirstOrDefault();
             if (user == null)
-                return false;
-            user.FirstOrDefault().Password = userPassword.password;
-            return true;
+                return null;
+            user.Password = parentPassword.password;
+            await this.pocketMoneyContext.SaveChangesAsync();
+            return user;
         }
     }
 }

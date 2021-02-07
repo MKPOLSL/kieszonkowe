@@ -8,7 +8,7 @@ namespace Kieszonkowe.Interfaces
     {
         Task<Parent> CreateUser(Parent parent);
         public User AuthenticateUser(UserLoginDto userLogin);
-        public bool UpdateUserData(ParentChangeDataDto userData);
-        public bool UpdateUserPassword(ParentChangePasswordDto userPassword);
+        public Task<Parent> UpdateParentData(ParentChangeDataDto parentData);
+        public Task<Parent> UpdateParentPassword(ParentChangePasswordDto parentPassword);
     }
 }

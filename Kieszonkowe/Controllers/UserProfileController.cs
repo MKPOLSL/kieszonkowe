@@ -50,6 +50,24 @@ namespace Kieszonkowe.Controllers
                 return Forbid();
             return Ok(authenticatedUser);
         }
+
+        [HttpPost]
+        [Route("updateUserData")]
+        public async Task<IActionResult> UpdateUserData([FromBody] ParentChangeDataDto userData)
+        {
+            if (userService.UpdateUserData(userData))
+               return Ok();
+            return Forbid();
+        }
+
+        [HttpPost]
+        [Route("updateUserPassword")]
+        public async Task<IActionResult> UpdateUserPassword([FromBody] ParentChangePasswordDto userPassword)
+        {
+            if (userService.UpdateUserPassword(userPassword))
+                return Ok();
+            return Forbid();
+        }
     }
 }
 

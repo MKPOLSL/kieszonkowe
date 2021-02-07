@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Kieszonkowe.Models
+namespace Kieszonkowe.DAL
 {
     public class ParentChangePasswordDto
     {
-        Guid Id;
-        string password;
+        public Guid Id { get; set; } 
+        public string password { get; set; }
     }
 }

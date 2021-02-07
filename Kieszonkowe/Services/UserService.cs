@@ -38,5 +38,25 @@ namespace Kieszonkowe.Services
             var user = parentSet.Where(e => e.Username == userLogin.Username && e.Password == userLogin.Password);
             return user.FirstOrDefault();
         }
+
+        public bool UpdateUserData(ParentChangeDataDto userData)
+        {
+            var user = parentSet.Where(e => e.Id == userData.Id);
+            if (user == null) 
+                return false;
+            user.FirstOrDefault().Email = userData.email;
+            user.FirstOrDefault().Username = userData.username;
+            user.FirstOrDefault().BirthDate = userData.birthDate;
+            return true;
+        }
+
+        public bool UpdateUserPassword(ParentChangePasswordDto userPassword)
+        {
+            var user = parentSet.Where(e => e.Id == userPassword.Id);
+            if (user == null)
+                return false;
+            user.FirstOrDefault().Password = userPassword.password;
+            return true;
+        }
     }
 }

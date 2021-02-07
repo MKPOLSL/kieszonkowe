@@ -11,7 +11,6 @@ namespace Kieszonkowe.DAL
         public string Education { get; set; }
         public int PlannedAmount { get; set; }
         public string Region { get; set; }
-        public bool IsHidden { get; set; }
         public int ActualAmount { get; set; }
         public Guid ParentId { get; set; }
     }

@@ -20,29 +20,75 @@ namespace Kieszonkowe.Services
             this.adminSet = pocketMoneyContext.Set<Administrator>();
         }
 
-        public Task<Administrator> AddAdministrator()
+        public async Task<Administrator> AddAdministrator(Administrator admin)
         {
-            throw new NotImplementedException();
+            pocketMoneyContext.Administrators.Add(admin);
+            await pocketMoneyContext.SaveChangesAsync();
+            return admin;
         }
 
-        public Task<ChildRecord> AddChildRecord(ChildDto child)
+        public async Task<ChildRecord> AddChildRecord(ChildDto child)
         {
-            throw new NotImplementedException();
+            var region = pocketMoneyContext.Regions
+                .Where(x => x.RegionName == child.Region)
+                .FirstOrDefault();
+            var education = pocketMoneyContext.EducationDegrees
+                .Where(x => x.EducationDegree == child.Education)
+                .FirstOrDefault();
+            if (education == null || region == null)
+                return null;
+            var addedChild = new ChildRecord()
+            {
+                Name = child.Name,
+                ParentId = child.ParentId,
+                PlannedAmount = child.PlannedAmount,
+                ActualAmount = child.ActualAmount,
+                Education = education,
+                Region = region
+            };
+            pocketMoneyContext.ChildRecords.Add(addedChild);
+            await pocketMoneyContext.SaveChangesAsync();
+            return addedChild;
         }
 
-        public Task<Education> AddEducation()
+        public async Task<Education> AddEducation(Education education)
         {
-            throw new NotImplementedException();
+            pocketMoneyContext.EducationDegrees.Add(education);
+            await pocketMoneyContext.SaveChangesAsync();
+            return education;
         }
 
-        public Task<Parent> AddParent()
+        public async Task<Parent> AddParent(ParentDto parent)
         {
-            throw new NotImplementedException();
+            var isActive = false;
+            if (parent.IsActive.Equals("true"))
+                isActive = true;
+            var addedParent = new Parent()
+            {
+                BirthDate = parent.Birthdate,
+                Password = parent.Password,
+                IsActive = isActive,
+                Email = parent.Email,
+                Username = parent.Username
+            };
+            pocketMoneyContext.Parents.Add(addedParent);
+            await pocketMoneyContext.SaveChangesAsync();
+            return addedParent;
         }
 
-        public Task<Region> AddRegion()
+        public async Task<Region> AddRegion(RegionDto region)
         {
-            throw new NotImplementedException();
+            var isCity = false;
+            if (region.isCity.Equals("true"))
+                isCity = true;
+            var addedRegion = new Region()
+            {
+                RegionName = region.RegionName,
+                IsCity = isCity
+            };
+            pocketMoneyContext.Regions.Add(addedRegion);
+            await pocketMoneyContext.SaveChangesAsync();
+            return addedRegion;
         }
 
         public Administrator AuthenticateAdmin(UserLoginDto admin)

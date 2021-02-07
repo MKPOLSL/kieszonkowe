@@ -44,9 +44,9 @@ namespace Kieszonkowe.Services
             var user = parentSet.Where(e => e.Id == parentData.Id).FirstOrDefault();
             if (user == null) 
                 return null;
-            user.Email = parentData.email;
-            user.Username = parentData.username;
-            user.BirthDate = parentData.birthDate;
+            user.Email = parentData.Email;
+            user.Username = parentData.Username;
+            user.BirthDate = parentData.BirthDate;
             await this.pocketMoneyContext.SaveChangesAsync();
             return user;
         }

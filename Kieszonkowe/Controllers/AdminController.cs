@@ -81,10 +81,50 @@ namespace Kieszonkowe.Controllers
         [Route("panel/children/add")]
         public async Task<IActionResult> AddChildRecord([FromBody] ChildDto child)
         { 
-            //var childRecord = await adminService.AddChildRecord(child);
-            //if (childRecord == null)
+            var childRecord = await adminService.AddChildRecord(child);
+            if (childRecord == null)
                 return BadRequest();
-            //return Ok(childRecord);
+            return Ok(childRecord);
+        }
+
+        [HttpPost]
+        [Route("panel/educations/add")]
+        public async Task<IActionResult> AddEducation([FromBody] Education education)
+        {
+            var addedEducation = await adminService.AddEducation(education);
+            if (addedEducation == null)
+                return BadRequest();
+            return Ok(addedEducation);
+        }
+
+        [HttpPost]
+        [Route("panel/regions/add")]
+        public async Task<IActionResult> AddRegion([FromBody] RegionDto region)
+        {
+            var addedRegion = await adminService.AddRegion(region);
+            if (addedRegion == null)
+                return BadRequest();
+            return Ok(addedRegion);
+        }
+
+        [HttpPost]
+        [Route("panel/regions/add")]
+        public async Task<IActionResult> AddParent([FromBody] ParentDto parent)
+        {
+            var addedParent = await adminService.AddParent(parent);
+            if (addedParent == null)
+                return BadRequest();
+            return Ok(addedParent);
+        }
+
+        [HttpPost]
+        [Route("panel/regions/add")]
+        public async Task<IActionResult> AddAdministrator([FromBody] Administrator admin)
+        {
+            var addedAdministrator = await adminService.AddAdministrator(admin);
+            if (addedAdministrator == null)
+                return BadRequest();
+            return Ok(addedAdministrator);
         }
     }
 }

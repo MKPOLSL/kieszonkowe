@@ -55,7 +55,7 @@ namespace Kieszonkowe.Controllers
         [Route("updateUserData")]
         public async Task<IActionResult> UpdateParentData([FromBody] ParentChangeDataDto parentData)
         {
-            var parent = UpdateParentData(parentData);
+            var parent = await userService.UpdateParentData(parentData);
             if (parent == null)
                 return Forbid();
             return Ok(parent);
@@ -65,7 +65,7 @@ namespace Kieszonkowe.Controllers
         [Route("updateUserPassword")]
         public async Task<IActionResult> UpdateParentPassword([FromBody] ParentChangePasswordDto parentPassword)
         {
-            var parent = UpdateParentPassword(parentPassword);
+            var parent = await userService.UpdateParentPassword(parentPassword);
             if (parent == null)
                 return Forbid();
             return Ok(parent);

@@ -13,6 +13,7 @@ namespace Kieszonkowe.Services
     {
         private readonly PocketMoneyContext pocketMoneyContext;
         private readonly DbSet<ChildRecord> childSet;
+        private readonly DbSet<Parent> parentSet;
         private readonly DbSet<Education> educationSet;
         private readonly DbSet<Region> regionSet;
         private readonly int DaysIn4Years = 1460;
@@ -23,6 +24,7 @@ namespace Kieszonkowe.Services
             childSet = pocketMoneyContext.Set<ChildRecord>();
             educationSet = pocketMoneyContext.Set<Education>();
             regionSet = pocketMoneyContext.Set<Region>();
+            parentSet = pocketMoneyContext.Set<Parent>();
         }
 
         public double? MeanAmount(List<int?> list)
@@ -173,6 +175,21 @@ namespace Kieszonkowe.Services
             return statistics;
         }
 
+        public async Task<List<Education>> GetEducations(Guid parentId)
+        {
+            return await childSet
+                .Include(c => c.Education)
+                .Where(c => c.ParentId == parentId)
+                .Select(c => c.Education).ToListAsync();
+        }
+        public async Task<List<Education>> GetEducationsActual(Guid parentId)
+        {
+            return await childSet
+                .Include(c => c.Education)
+                .Where(c => c.ParentId == parentId && c.ActualAmount != null)
+                .Select(c => c.Education).ToListAsync();
+        }
+
         public async Task<List<Education>> GetEducations()
         {
             return await educationSet.ToListAsync();
@@ -182,5 +199,6 @@ namespace Kieszonkowe.Services
         {
             return await regionSet.ToListAsync();
         }
+
     }
 }

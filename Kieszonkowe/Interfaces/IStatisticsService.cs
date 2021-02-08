@@ -12,7 +12,10 @@ namespace Kieszonkowe.Interfaces
         List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, bool isCity);
         StatisticsDto calculateStatisticsForActualAmount(Guid educationId, Guid regionId);
         List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, bool isCity);
+
         Task<List<Education>> GetEducations();
+        Task<List<Education>> GetEducations(Guid parentId);
+        Task<List<Education>> GetEducationsActual(Guid parentId);
         Task<List<Region>> GetRegions();
     }
 }

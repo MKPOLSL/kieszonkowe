@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace Kieszonkowe.Controllers
 {
     [ApiController]
-    [Route("pocketmoney")]
-    public class PocketMoneyController : ControllerBase
+    [Route("statistics")]
+    public class StatisticsController : ControllerBase
     {
-        private readonly ILogger<PocketMoneyController> _logger;
+        private readonly ILogger<StatisticsController> _logger;
         private readonly IStatisticsService statisticsService;
 
-        public PocketMoneyController(ILogger<PocketMoneyController> logger, IStatisticsService statisticsService)
+        public StatisticsController(ILogger<StatisticsController> logger, IStatisticsService statisticsService)
         {
             _logger = logger;
             this.statisticsService = statisticsService;
@@ -74,12 +74,27 @@ namespace Kieszonkowe.Controllers
             return BadRequest();
         }
 
-
         [HttpGet]
         [Route("educations")]
         public async Task<IActionResult> GetEducationDegrees()
         {
             var educations = await statisticsService.GetEducations();
+            return Ok(educations);
+        }
+
+        [HttpGet]
+        [Route("educationsPlanned")]
+        public async Task<IActionResult> GetEducationDegreesPlanned([FromQuery] Guid parentId)
+        {
+            var educations = await statisticsService.GetEducations(parentId);
+            return Ok(educations);
+        }
+
+        [HttpGet]
+        [Route("educationsActual")]
+        public async Task<IActionResult> GetEducationDegreesActual([FromQuery] Guid parentId)
+        {
+            var educations = await statisticsService.GetEducationsActual(parentId);
             return Ok(educations);
         }
 

@@ -48,16 +48,6 @@ namespace Kieszonkowe.Controllers
         }
 
         [HttpPost]
-        [Route("hide")]
-        public async Task<IActionResult> HideChild([FromBody] Guid childId)
-        {
-            var result = await childRecordService.HideChild(childId);
-            if (result != null)
-                return Ok();
-            return BadRequest();
-        }
-
-        [HttpPost]
         [Route("complete")]
         public async Task<IActionResult> CompleteChildRecord([FromBody] CompleteChildRecordDto request)
         {

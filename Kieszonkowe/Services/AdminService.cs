@@ -45,12 +45,15 @@ namespace Kieszonkowe.Services
                 .FirstOrDefault();
             if (education == null || region == null)
                 return null;
+            int? actualAmount = child.ActualAmount;
+            if (child.ActualAmount == -1)
+                actualAmount = null;
             var addedChild = new ChildRecord()
             {
                 Name = child.Name,
                 ParentId = child.ParentId,
                 PlannedAmount = child.PlannedAmount,
-                ActualAmount = child.ActualAmount,
+                ActualAmount = actualAmount,
                 Education = education,
                 Region = region,
                 DateAdded = DateTime.Now
@@ -109,7 +112,7 @@ namespace Kieszonkowe.Services
 
         public async Task<bool> DeleteEducation(Guid educationId)
         {
-            var education = adminSet.Where(a => a.Id == educationId).FirstOrDefault();
+            var education = educationSet.Where(a => a.Id == educationId).FirstOrDefault();
             if (education == null)
                 return false;
             education.IsHidden = true;
@@ -119,7 +122,7 @@ namespace Kieszonkowe.Services
 
         public async Task<bool> DeleteParent(Guid parentId)
         {
-            var parent = adminSet.Where(a => a.Id == parentId).FirstOrDefault();
+            var parent = parentSet.Where(a => a.Id == parentId).FirstOrDefault();
             if (parent == null)
                 return false;
             parent.IsHidden = true;
@@ -129,7 +132,7 @@ namespace Kieszonkowe.Services
 
         public async Task<bool> DeleteRegion(Guid regionId)
         {
-            var region = adminSet.Where(a => a.Id == regionId).FirstOrDefault();
+            var region = regionSet.Where(a => a.Id == regionId).FirstOrDefault();
             if (region == null)
                 return false;
             region.IsHidden = true;
@@ -137,9 +140,9 @@ namespace Kieszonkowe.Services
             return true;
         }
 
-        public async Task<List<Administrator>> GetAdministrators()
+        public async Task<List<Administrator>> GetAdministrators(Guid adminId)
         {
-            return await pocketMoneyContext.Administrators.Where(c => c.IsHidden == false).ToListAsync();
+            return await pocketMoneyContext.Administrators.Where(c => c.IsHidden == false && c.Id != adminId).ToListAsync();
         }
 
         public async Task<List<ChildRecord>> GetChildRecords()
@@ -168,27 +171,72 @@ namespace Kieszonkowe.Services
 
         public async Task<Administrator> UpdateAdministrator(Administrator admin)
         {
-            throw new NotImplementedException();
+            var updatedAdmin = adminSet.Where(a => a.Id == admin.Id).FirstOrDefault();
+            if(updatedAdmin != null)
+            {
+                updatedAdmin.Username = admin.Username;
+                updatedAdmin.Password = admin.Password;
+            }
+            await pocketMoneyContext.SaveChangesAsync();
+            return updatedAdmin;
         }
 
         public async Task<ChildRecord> UpdateChildRecord(ChildDto child)
         {
-            throw new NotImplementedException();
+            var region = regionSet.Where(r => r.RegionName == child.Region).FirstOrDefault();
+            var education = educationSet.Where(e => e.EducationDegree == child.Education).FirstOrDefault();
+            if (region == null || education == null)
+                return null;
+            var updatedChildRecord = childSet.Where(a => a.Id == child.Id).FirstOrDefault();
+            if(updatedChildRecord != null)
+            {
+                updatedChildRecord.ActualAmount = child.ActualAmount;
+                updatedChildRecord.PlannedAmount = child.PlannedAmount;
+                updatedChildRecord.ParentId = child.ParentId;
+                updatedChildRecord.Region = region;
+                updatedChildRecord.Education = education;
+                updatedChildRecord.DateAdded = DateTime.Now;
+            }
+            await pocketMoneyContext.SaveChangesAsync();
+            return updatedChildRecord;
         }
 
         public async Task<Education> UpdateEducation(Education education)
         {
-            throw new NotImplementedException();
+            var updatedEducation = educationSet.Where(a => a.Id == education.Id).FirstOrDefault();
+            if(updatedEducation != null)
+            {
+                updatedEducation.EducationDegree = education.EducationDegree;
+            }
+            await pocketMoneyContext.SaveChangesAsync();
+            return updatedEducation; 
         }
 
         public async Task<Parent> UpdateParent(Parent parent)
         {
-            throw new NotImplementedException();
+            var updatedParent = parentSet.Where(a => a.Id == parent.Id).FirstOrDefault();
+            if(updatedParent != null)
+            {
+                updatedParent.BirthDate = parent.BirthDate;
+                updatedParent.Email = parent.Email;
+                updatedParent.IsActive = parent.IsActive;
+                updatedParent.Password = parent.Password;
+                updatedParent.Username = parent.Username;
+            }
+            await pocketMoneyContext.SaveChangesAsync();
+            return updatedParent;
         }
 
         public async Task<Region> UpdateRegion(Region region)
         {
-            throw new NotImplementedException();
+            var updatedRegion = regionSet.Where(a => a.Id == region.Id).FirstOrDefault();
+            if(updatedRegion != null)
+            {
+                updatedRegion.RegionName = region.RegionName;
+                updatedRegion.IsCity = region.IsCity;
+            }
+            await pocketMoneyContext.SaveChangesAsync();
+            return updatedRegion;
         }
     }
 }

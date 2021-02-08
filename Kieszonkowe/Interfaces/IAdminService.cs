@@ -15,7 +15,7 @@ namespace Kieszonkowe.Interfaces
         Task<List<ChildRecord>> GetChildRecords();
         Task<List<Education>> GetEducations();
         Task<List<Parent>> GetParents();
-        Task<List<Administrator>> GetAdministrators();
+        Task<List<Administrator>> GetAdministrators(Guid adminId);
 
         Task<ChildRecord> AddChildRecord(ChildDto child);
         Task<Region> AddRegion(Region region);

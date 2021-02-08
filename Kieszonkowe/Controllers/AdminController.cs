@@ -60,9 +60,9 @@ namespace Kieszonkowe.Controllers
         }
         [HttpGet]
         [Route("panel/administrators")]
-        public async Task<IActionResult> GetAdministrators()
+        public async Task<IActionResult> GetAdministrators([FromQuery] Guid adminId)
         {
-            var regions = await adminService.GetAdministrators();
+            var regions = await adminService.GetAdministrators(adminId);
             if (regions == null)
                 return BadRequest();
             return Ok(regions);

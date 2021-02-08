@@ -15,6 +15,7 @@ namespace Kieszonkowe.Services
         private readonly DbSet<ChildRecord> childSet;
         private readonly DbSet<Education> educationSet;
         private readonly DbSet<Region> regionSet;
+        private readonly int DaysIn4Years = 1460;
 
         public StatisticsService(PocketMoneyContext pocketMoneyContext)
         {
@@ -57,7 +58,8 @@ namespace Kieszonkowe.Services
                 .Include(e => e.Region)
                 .Include(e => e.Education)
                 .ToList()
-                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
+                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId) 
+                            && (e.DateAdded - DateTime.Now).TotalDays < DaysIn4Years)
                 .Select(s => s.ActualAmount).Where(e => e != null)
                 .ToList();
         }
@@ -68,7 +70,8 @@ namespace Kieszonkowe.Services
                 .Include(e => e.Region)
                 .Include(e => e.Education)
                 .ToList()
-                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId))
+                .Where(e => e.Education.Id.Equals(educationId) && e.Region.Id.Equals(regionId) 
+                            && (e.DateAdded - DateTime.Now).TotalDays < DaysIn4Years)
                 .Select(s => s.PlannedAmount).Where(e => e != null)
                 .ToList();
         }
@@ -79,7 +82,8 @@ namespace Kieszonkowe.Services
                .Include(e => e.Region)
                .Include(e => e.Education)
                .ToList()
-               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
+               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity 
+                           && (e.DateAdded-DateTime.Now).TotalDays < DaysIn4Years)
                .GroupBy(e => e.Region)
                .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).Where(e => e != null).ToList());
         }
@@ -90,7 +94,8 @@ namespace Kieszonkowe.Services
                .Include(e => e.Region)
                .Include(e => e.Education)
                .ToList()
-               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity)
+               .Where(e => e.Education.Id.Equals(educationId) && e.Region.IsCity == isCity 
+                           && (e.DateAdded - DateTime.Now).TotalDays < DaysIn4Years)
                .GroupBy(e => e.Region)
                .ToDictionary(g => g.Key, g => g.Select(e => e.ActualAmount).Where(e => e != null).ToList());
 

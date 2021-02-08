@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Kieszonkowe.Entities
 {
-    public class Education : IdentityEntity
+    public class IdentityEntity
     {
-        public string EducationDegree { get; set; }
+        [Key]
+        public Guid Id { get; set; }
+        public bool IsHidden { get; set; }
     }
 }

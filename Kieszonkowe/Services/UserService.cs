@@ -35,7 +35,7 @@ namespace Kieszonkowe.Services
 
         public User AuthenticateUser(UserLoginDto userLogin)
         {
-            var user = parentSet.Where(e => e.Username == userLogin.Username && e.Password == userLogin.Password);
+            var user = parentSet.Where(e => e.Username == userLogin.Username && e.Password == userLogin.Password && e.IsHidden == false);
             return user.FirstOrDefault();
         }
 

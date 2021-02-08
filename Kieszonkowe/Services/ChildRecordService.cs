@@ -37,7 +37,8 @@ namespace Kieszonkowe.Services
                 Education = education,
                 Name = childRecord.Name,
                 PlannedAmount = childRecord.PlannedAmount,  
-                ParentId = id
+                ParentId = id,
+                DateAdded = DateTime.Now
             };
             var createdChild = await childSet.AddAsync(child);
             await pocketMoneyContext.SaveChangesAsync();

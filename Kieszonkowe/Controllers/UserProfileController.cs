@@ -19,18 +19,6 @@ namespace Kieszonkowe.Controllers
             this.userService = userService;
         }
 
-        /*[HttpGet]
-        public async Task<string> Get()
-        {
-            ChildRecord childRecord = new ChildRecord
-            {
-                PlannedAmount = 20,
-                ActualAmount = 20000
-            };
-            
-            return "pies";
-        }*/
-
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> CreateParent(Parent parent)

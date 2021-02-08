@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kieszonkowe.Migrations
 {
-    public partial class initial : Migration
+    public partial class makeregionshideable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,6 +12,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true)
                 },
@@ -25,6 +26,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false),
                     EducationDegree = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -37,6 +39,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false),
                     Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -53,6 +56,7 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false),
                     RegionName = table.Column<string>(nullable: true),
                     IsCity = table.Column<bool>(nullable: false)
                 },
@@ -66,13 +70,14 @@ namespace Kieszonkowe.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    IsHidden = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     EducationId = table.Column<Guid>(nullable: true),
                     RegionId = table.Column<Guid>(nullable: true),
                     PlannedAmount = table.Column<int>(nullable: true),
                     ActualAmount = table.Column<int>(nullable: true),
-                    IsHidden = table.Column<bool>(nullable: false),
-                    ParentId = table.Column<Guid>(nullable: true)
+                    ParentId = table.Column<Guid>(nullable: false),
+                    DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +93,7 @@ namespace Kieszonkowe.Migrations
                         column: x => x.ParentId,
                         principalTable: "Parents",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ChildRecords_Regions_RegionId",
                         column: x => x.RegionId,

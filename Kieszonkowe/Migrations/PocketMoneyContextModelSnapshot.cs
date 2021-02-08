@@ -22,6 +22,9 @@ namespace Kieszonkowe.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
@@ -42,6 +45,9 @@ namespace Kieszonkowe.Migrations
                     b.Property<int?>("ActualAmount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid?>("EducationId")
                         .HasColumnType("TEXT");
 
@@ -51,7 +57,7 @@ namespace Kieszonkowe.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("ParentId")
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("PlannedAmount")
@@ -80,6 +86,9 @@ namespace Kieszonkowe.Migrations
                     b.Property<string>("EducationDegree")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("EducationDegrees");
@@ -98,6 +107,9 @@ namespace Kieszonkowe.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsHidden")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Password")
@@ -120,6 +132,9 @@ namespace Kieszonkowe.Migrations
                     b.Property<bool>("IsCity")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("RegionName")
                         .HasColumnType("TEXT");
 
@@ -136,7 +151,9 @@ namespace Kieszonkowe.Migrations
 
                     b.HasOne("Kieszonkowe.Entities.Parent", null)
                         .WithMany("Children")
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Kieszonkowe.Entities.Region", "Region")
                         .WithMany()

@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Kieszonkowe.Entities
 {
-    public class Region
+    public class Region : IdentityEntity
     {
-        [Key]
-        public Guid Id { get; set; }
         public string RegionName { get; set; }
         public bool IsCity { get; set; }
     }

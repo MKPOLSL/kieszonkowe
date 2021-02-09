@@ -54,7 +54,7 @@ namespace Kieszonkowe.Services
             var mean = MeanAmount(list);
             return Math.Sqrt(list.Average(v => Math.Pow((double)(v - mean), 2)));
         }
-        public List<int?> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        private List<int?> GetActualAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
             return childSet
                 .Include(e => e.Region)
@@ -66,7 +66,7 @@ namespace Kieszonkowe.Services
                 .ToList();
         }
 
-        public List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
+        private List<int?> GetPlannedAmountListForRegionAndEducation(Guid educationId, Guid regionId)
         {
             return childSet
                 .Include(e => e.Region)
@@ -78,7 +78,7 @@ namespace Kieszonkowe.Services
                 .ToList();
         }
 
-        public Dictionary<Region, List<int?>> GetPlannedAmountListForEducation(Guid educationId, bool isCity)
+        private Dictionary<Region, List<int?>> GetPlannedAmountListForEducation(Guid educationId, bool isCity)
         {
             return childSet
                .Include(e => e.Region)
@@ -90,7 +90,7 @@ namespace Kieszonkowe.Services
                .ToDictionary(g => g.Key, g => g.Select(e => e.PlannedAmount).Where(e => e != null).ToList());
         }
 
-        public Dictionary<Region, List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)
+        private Dictionary<Region, List<int?>> GetActualAmountListForEducation(Guid educationId, bool isCity)
         {
             return childSet
                .Include(e => e.Region)
@@ -102,7 +102,7 @@ namespace Kieszonkowe.Services
                .ToDictionary(g => g.Key, g => g.Select(e => e.ActualAmount).Where(e => e != null).ToList());
 
         }
-        public StatisticsDto calculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
+        public StatisticsDto CalculateStatisticsForPlannedAmount(Guid educationId, Guid regionId)
         {
             var list = GetPlannedAmountListForRegionAndEducation(educationId, regionId);
             if (list == null || !list.Any())
@@ -118,7 +118,7 @@ namespace Kieszonkowe.Services
             return statistics;
         }
 
-        public StatisticsDto calculateStatisticsForActualAmount(Guid educationId, Guid regionId)
+        public StatisticsDto CalculateStatisticsForActualAmount(Guid educationId, Guid regionId)
         {
             var list = GetActualAmountListForRegionAndEducation(educationId, regionId);
             if (list == null || !list.Any())
@@ -135,13 +135,13 @@ namespace Kieszonkowe.Services
         }
 
 
-        public List<StatisticsDto> calculateStatisticsForPlannedAmount(Guid educationId, bool isCity)
+        public List<StatisticsDto> CalculateStatisticsForPlannedAmount(Guid educationId, bool isCity)
         {
-            var list = GetPlannedAmountListForEducation(educationId, isCity);
-            if (list == null || !list.Any())
+            var dictionary = GetPlannedAmountListForEducation(educationId, isCity);
+            if (dictionary == null || !dictionary.Any())
                 return null;
             List<StatisticsDto> statistics = new List<StatisticsDto>();
-            foreach (var element in list)
+            foreach (var element in dictionary)
             {
                 statistics.Add(new StatisticsDto()
                 {
@@ -155,13 +155,13 @@ namespace Kieszonkowe.Services
             return statistics;
         }
 
-        public List<StatisticsDto> calculateStatisticsForActualAmount(Guid educationId, bool isCity)
+        public List<StatisticsDto> CalculateStatisticsForActualAmount(Guid educationId, bool isCity)
         {
-            var list = GetActualAmountListForEducation(educationId, isCity);
-            if (list == null || !list.Any())
+            var dictionary = GetActualAmountListForEducation(educationId, isCity);
+            if (dictionary == null || !dictionary.Any())
                 return null;
             List<StatisticsDto> statistics = new List<StatisticsDto>();
-            foreach (var element in list)
+            foreach (var element in dictionary)
             {
                 statistics.Add(new StatisticsDto()
                 {
@@ -200,5 +200,30 @@ namespace Kieszonkowe.Services
             return await regionSet.ToListAsync();
         }
 
+        public async Task<StatisticsDto> RandomStatistics()
+        {
+            Random rnd = new Random();
+            var children = await childSet
+                .Include(c => c.Region)
+                .Include(c => c.Education)
+                .ToListAsync();
+            if (children == null || !children.Any())
+                return null;
+            int r = rnd.Next(children.Count);
+
+            var list = GetPlannedAmountListForRegionAndEducation(children[r].Education.Id, children[r].Region.Id);
+            if (list == null)
+                return null;
+
+            StatisticsDto statistics = new StatisticsDto()
+            {
+                RegionName = children[r].Region.RegionName,
+                MeanAmount = MeanAmount(list),
+                MedianAmount = MedianAmount(list),
+                ModeAmount = ModeAmount(list),
+                StandardDeviationAmount = StandardDeviationAmount(list)
+            };
+            return statistics;
+        }
     }
 }

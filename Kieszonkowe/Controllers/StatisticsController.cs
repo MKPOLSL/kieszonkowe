@@ -38,7 +38,7 @@ namespace Kieszonkowe.Controllers
         [Route("statistics")]
         public IActionResult CalculateStatisticsForPlannedAmount([FromBody] RegionAndEducationDto ids)
         {
-            var statistics = statisticsService.calculateStatisticsForPlannedAmount(ids.EducationID, ids.RegionID);
+            var statistics = statisticsService.CalculateStatisticsForPlannedAmount(ids.EducationID, ids.RegionID);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();
@@ -48,7 +48,7 @@ namespace Kieszonkowe.Controllers
         [Route("statisticsEducation")]
         public IActionResult CalculateStatisticsForPlannedAmount([FromQuery] StatisticsListRequestDto request)
         {
-            var statistics = statisticsService.calculateStatisticsForPlannedAmount(request.educationId, request.isCity);
+            var statistics = statisticsService.CalculateStatisticsForPlannedAmount(request.educationId, request.isCity);
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();
@@ -58,7 +58,7 @@ namespace Kieszonkowe.Controllers
         [Route("statisticsActual")]
         public IActionResult CalculateStatisticsForActualAmount([FromBody] RegionAndEducationDto ids)
         {
-            var statistics = statisticsService.calculateStatisticsForActualAmount(ids.EducationID, ids.RegionID);
+            var statistics = statisticsService.CalculateStatisticsForActualAmount(ids.EducationID, ids.RegionID);
             if(statistics != null) 
                 return Ok(statistics);
             return BadRequest();
@@ -68,7 +68,17 @@ namespace Kieszonkowe.Controllers
         [Route("statisticsEducationActual")]
         public IActionResult CalculateStatisticsForActualAmount([FromQuery] StatisticsListRequestDto request)
         {
-            var statistics = statisticsService.calculateStatisticsForActualAmount(request.educationId, request.isCity);
+            var statistics = statisticsService.CalculateStatisticsForActualAmount(request.educationId, request.isCity);
+            if (statistics != null)
+                return Ok(statistics);
+            return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("random")]
+        public IActionResult GetRandomStatistics()
+        {
+            var statistics = statisticsService.RandomStatistics();
             if (statistics != null)
                 return Ok(statistics);
             return BadRequest();

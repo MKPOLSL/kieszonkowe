@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kieszonkowe.Migrations
 {
-    public partial class makeregionshideable : Migration
+    public partial class makeuserbannable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace Kieszonkowe.Migrations
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     BirthDate = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsBanned = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

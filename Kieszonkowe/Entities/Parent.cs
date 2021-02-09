@@ -11,5 +11,6 @@ namespace Kieszonkowe.Entities
         public string BirthDate { get; set; }
         public ICollection<ChildRecord> Children { get; set; }
         public bool IsActive { get; set; }
+        public bool IsBanned { get; set; }
     }
 }

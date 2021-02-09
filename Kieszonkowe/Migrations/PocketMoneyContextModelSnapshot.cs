@@ -109,6 +109,9 @@ namespace Kieszonkowe.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("IsHidden")
                         .HasColumnType("INTEGER");
 

@@ -90,6 +90,15 @@ namespace Kieszonkowe.Services
             return authenticatedAdmin.FirstOrDefault();
         }
 
+        public async Task<Parent> BanOrUnbanUser(Guid parentId)
+        {
+            var user = parentSet.Where(p => p.Id == parentId).FirstOrDefault();
+            if (user != null)
+                user.IsBanned = !user.IsBanned;
+            await pocketMoneyContext.SaveChangesAsync();
+            return user;
+        }
+
         public async Task<bool> DeleteAdministrator(Guid adminId)
         {
             var admin = adminSet.Where(a => a.Id == adminId).FirstOrDefault();

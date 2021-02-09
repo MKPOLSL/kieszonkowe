@@ -226,5 +226,15 @@ namespace Kieszonkowe.Controllers
                 return BadRequest();
             return Ok(updatedEducation);
         }
+
+        [HttpPost]
+        [Route("ban")]
+        public async Task<IActionResult> BanOrUnbanUser([FromBody] Guid parentId)
+        {
+            var bannedUser = await adminService.BanOrUnbanUser(parentId);
+            if (bannedUser == null)
+                return BadRequest();
+            return Ok(bannedUser);
+        }
     }
 }

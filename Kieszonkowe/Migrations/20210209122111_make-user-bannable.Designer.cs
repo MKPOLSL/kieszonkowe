@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kieszonkowe.Migrations
 {
     [DbContext(typeof(PocketMoneyContext))]
-    [Migration("20210208093242_make-regions-hideable")]
-    partial class makeregionshideable
+    [Migration("20210209122111_make-user-bannable")]
+    partial class makeuserbannable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,9 @@ namespace Kieszonkowe.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsBanned")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsHidden")

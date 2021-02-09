@@ -35,6 +35,8 @@ namespace Kieszonkowe.Controllers
         {
             var authenticatedUser = userService.AuthenticateUser(userLogin);
             if (authenticatedUser == null)
+                return BadRequest();
+            if (authenticatedUser.IsBanned == true)
                 return Forbid();
             return Ok(authenticatedUser);
         }

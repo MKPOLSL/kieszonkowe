@@ -34,5 +34,6 @@ namespace Kieszonkowe.Interfaces
         Task<Administrator> UpdateAdministrator(Administrator admin);
         Task<Region> UpdateRegion(Region region);
         Task<Education> UpdateEducation(Education education);
+        Task<Parent> BanOrUnbanUser(Guid parentId);
     }
 }

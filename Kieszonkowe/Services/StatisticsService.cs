@@ -179,25 +179,25 @@ namespace Kieszonkowe.Services
         {
             return await childSet
                 .Include(c => c.Education)
-                .Where(c => c.ParentId == parentId)
-                .Select(c => c.Education).ToListAsync();
+                .Where(c => c.ParentId == parentId && c.IsHidden == false)
+                .Select(c => c.Education).Distinct().ToListAsync();
         }
         public async Task<List<Education>> GetEducationsActual(Guid parentId)
         {
             return await childSet
                 .Include(c => c.Education)
-                .Where(c => c.ParentId == parentId && c.ActualAmount != null)
-                .Select(c => c.Education).ToListAsync();
+                .Where(c => c.ParentId == parentId && c.ActualAmount != null && c.IsHidden == false)
+                .Select(c => c.Education).Distinct().ToListAsync();
         }
 
         public async Task<List<Education>> GetEducations()
         {
-            return await educationSet.ToListAsync();
+            return await educationSet.Where(e => e.IsHidden == false).ToListAsync();
         }
 
         public async Task<List<Region>> GetRegions()
         {
-            return await regionSet.ToListAsync();
+            return await regionSet.Where(e => e.IsHidden == false).ToListAsync();
         }
 
         public async Task<StatisticsDto> RandomStatistics()
